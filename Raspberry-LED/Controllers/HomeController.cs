@@ -26,5 +26,9 @@ namespace Raspberry_LED.Controllers
 
             return View();
         }
+        public ActionResult Test()
+        {
+            return View();
+        }
     }
 }
