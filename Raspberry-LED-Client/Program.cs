@@ -9,7 +9,7 @@ namespace Raspberry_LED_Client
     {
         static void Main(string[] args)
         {
-            // Enter all the code for the raspberry pi
+            // Enter all the code for the Raspberry Pi
         }
     }
 }
