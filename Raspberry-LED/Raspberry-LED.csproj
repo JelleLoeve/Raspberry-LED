@@ -170,6 +170,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RasperryController.cs" />
+    <Compile Include="Controllers\RouterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,6 +237,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Rasperry\Index.cshtml" />
+    <Content Include="Views\Router\Index.cshtml" />
+    <Content Include="Views\Rasperry\Ping.cshtml" />
+    <Content Include="Views\Router\Ping.cshtml" />
+    <Content Include="Views\Router\Status.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
