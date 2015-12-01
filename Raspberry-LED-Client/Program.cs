@@ -7,7 +7,7 @@ namespace Raspberry_LED_Client
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             // Enter all the code for the Raspberry Pi
             // Extra comment
