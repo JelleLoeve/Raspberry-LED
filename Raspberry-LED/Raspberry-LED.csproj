@@ -175,6 +175,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PingHelper.cs" />
+    <Compile Include="Helpers\SocketHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -242,6 +244,7 @@
     <Content Include="Views\Rasperry\Ping.cshtml" />
     <Content Include="Views\Router\Ping.cshtml" />
     <Content Include="Views\Router\Status.cshtml" />
+    <Content Include="Views\Rasperry\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
