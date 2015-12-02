@@ -23,14 +23,17 @@
                 <ul class="nav navbar-nav">
                     <li>
                         @Html.ActionLink("Home", "Index", "Home")
-                        <ul class="submenu" >
-                            <li>@Html.ActionLink("Router - Ping", "Index", "Router")</li>
-                            <li>@Html.ActionLink("Router - Status", "Index", "Router")</li>
-                            <li>@Html.ActionLink("Raspberry - ping", "Index", "Router")</li>
+                    </li>
+                    <li>@Html.ActionLink("Router", "Index", "Router")
+                        <ul class="submenuRouter">
+                            <li>@Html.ActionLink("Router - Ping", "ping", "Router")</li>
+                            <li>@Html.ActionLink("Router - Status", "status", "Router")</li>
+                        </ul></li>
+                    <li>@Html.ActionLink("Rasperry", "Index", "Rasperry")
+                        <ul class="submenuRaspberry">
+                            <li>@Html.ActionLink("Raspberry - ping", "ping", "Rasperry")</li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("Router", "Index", "Router")</li>
-                    <li>@Html.ActionLink("Rasperry", "Index", "Rasperry")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
