@@ -21,7 +21,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>
+                        @Html.ActionLink("Home", "Index", "Home")
+                        <ul class="submenu" >
+                            <li>@Html.ActionLink("Router - Ping", "Index", "Router")</li>
+                            <li>@Html.ActionLink("Router - Status", "Index", "Router")</li>
+                            <li>@Html.ActionLink("Raspberry - ping", "Index", "Router")</li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Router", "Index", "Router")</li>
                     <li>@Html.ActionLink("Rasperry", "Index", "Rasperry")</li>
                 </ul>
