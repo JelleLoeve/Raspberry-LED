@@ -16,23 +16,28 @@ namespace Raspberry_LED.Helpers
         {
             ipendpoint = new IPEndPoint(IPAddress.Parse(ip), ServerSocketPort);
         }
-        public bool connectToSocket()
+        public bool ConnectToSocket()
         {
             
             try
             {
                 socket.Connect(ipendpoint);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
             return true;
         }
-
-        public void SendToServer(string dataToSend)
+        /// <summary>
+        /// Sends message to the server
+        /// </summary>
+        /// <param name="commandType">The command type. </param>
+        /// <param name="command"></param>
+        public void SendToServer(string commandType, string command)
         {
             Reconnect();
+            string dataToSend = commandType + ":" + command;
             byte[] data = Encoding.ASCII.GetBytes(dataToSend);
             socket.Send(data);
             Console.WriteLine("Data send! Data: \"" + dataToSend + "\"");
@@ -52,11 +57,10 @@ namespace Raspberry_LED.Helpers
             try {
                 socket.Connect(ipendpoint);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                Console.WriteLine("Couldn't connect to the server.\nCheck if internet still works or if the server isn't down");
             }
-            
         }
 	}
 }

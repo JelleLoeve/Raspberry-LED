@@ -33,5 +33,10 @@ namespace Raspberry_LED.Controllers
             return View();
 
         }
+
+        public ActionResult Config()
+        {
+            return View();
+        }
     }
 }
