@@ -6,6 +6,7 @@ using Raspberry.IO.GeneralPurpose;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using static Raspberry_LED_Client.Helpers;
 
 namespace Raspberry_LED_Client
 {
@@ -19,7 +20,7 @@ namespace Raspberry_LED_Client
         
 
 
-        public static void Main(string[] args)
+        public static void Main()
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(new IPEndPoint(0, ServerPort));
@@ -42,7 +43,7 @@ namespace Raspberry_LED_Client
                 {
                     string commandtype = typcom[0];
                     string command = typcom[1];
-                    string parameters = null;
+                    string parameters = null; 
                     if (typcom.Length == 3)
                     {
                         parameters = typcom[2];
@@ -57,11 +58,14 @@ namespace Raspberry_LED_Client
                     Console.WriteLine("Can't parse \"" + strData + "\" as a command.");
                 }
                 Thread.Sleep(50);
+            }// End of while loop
+        } // End of Main function
 
-            }
-            socket.Close();
-            accepted.Close();
-
+        private static void changeLed(LEDS LED, bool state)
+        {
+            var led = ((ConnectorPin) LED).Output();
+            var connection = new GpioConnection(led);
+            connection.Toggle(led);
         }
     }
 }
