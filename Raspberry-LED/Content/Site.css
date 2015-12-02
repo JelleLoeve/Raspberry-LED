@@ -26,10 +26,52 @@ textarea {
 
 /*Start of custom css code*/
 
-.submenu{
-    border:5px solid red;
-    background:red;
+.nav{
+    background:#222222;
     display:inline-block;
-    width:100%;
+    width:70%;
     position:relative
-}   
+}
+
+.nav li{
+    text-decoration:none;
+    display:inline;
+    line-height:39px;
+    position:relative;
+}
+
+.nav li a{
+    text-decoration:none;
+    color:black;
+    padding:14px 20px;
+}
+
+.nav li a:hover{
+    text-decoration:none;
+    color:darkgray;
+    background:Cornsilk;
+}
+
+.submenu{
+    display:none;
+    position:absolute;
+    list-style-type:none;
+    background:silver;
+    top:39px;
+    left:15px;
+    padding:0;
+}
+
+.submenu li a{
+    text-decoration:none;
+    color:black;
+    padding:4px 15px;
+    width:200px;
+    display:block;
+}
+
+.submenu li a:hover{
+    text-decoration:none;
+    color:whitesmoke;
+    background:silver;
+}

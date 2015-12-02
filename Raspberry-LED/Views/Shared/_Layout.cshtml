@@ -25,17 +25,16 @@
                         @Html.ActionLink("Home", "Index", "Home")
                     </li>
                     <li>@Html.ActionLink("Router", "Index", "Router")
-                        <ul class="submenuRouter">
+                        <ul class="submenu router">
                             <li>@Html.ActionLink("Router - Ping", "ping", "Router")</li>
                             <li>@Html.ActionLink("Router - Status", "status", "Router")</li>
                         </ul></li>
                     <li>@Html.ActionLink("Rasperry", "Index", "Rasperry")
-                        <ul class="submenuRaspberry">
+                        <ul class="submenu raspberry">
                             <li>@Html.ActionLink("Raspberry - ping", "ping", "Rasperry")</li>
                         </ul>
                     </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
@@ -49,6 +48,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/side.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>
