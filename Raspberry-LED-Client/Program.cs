@@ -51,9 +51,14 @@ namespace Raspberry_LED_Client
                     }
                     switch (commandtype)
                     {
-                        case "MUSIC":
+                        case "PLAY":
                             Console.WriteLine("Let it play, let is play, let it play");
                             Console.WriteLine(command);
+                            Process proc = new Process();
+                            proc.EnableRaisingEvents = false;
+                            proc.StartInfo.FileName = @"C:\Program Files (x86)\VideoLAN\VLC\vlc.exe";
+                            proc.StartInfo.Arguments = command;
+                            proc.Start();
                             break;
                         case "SYS":
                             Console.WriteLine("System command");
