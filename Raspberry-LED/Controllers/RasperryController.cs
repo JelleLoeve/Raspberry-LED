@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,7 +29,7 @@ namespace Raspberry_LED.Controllers
             {
                 return View("Error");
             } */
-
+            
             ViewBag.PingResults = PingHelper.Ping("127.0.0.1");
             return View();
 
@@ -37,6 +38,20 @@ namespace Raspberry_LED.Controllers
         public ActionResult Config()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
+                file.SaveAs(path);
+                CommonHelpers.FTPUpload(path, fileName);
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

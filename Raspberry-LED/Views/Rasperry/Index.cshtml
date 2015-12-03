@@ -5,3 +5,9 @@
 <h1>Rasperry Pagina</h1>
 
 <p>Welkom bij Rasperry controller</p>
+
+@using (Html.BeginForm("Upload", "Rasperry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input type="submit" name="Submit" id="Submit" value="Upload" />
+}
