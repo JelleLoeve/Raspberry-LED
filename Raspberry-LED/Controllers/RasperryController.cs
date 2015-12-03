@@ -57,7 +57,13 @@ namespace Raspberry_LED.Controllers
         [HttpPost]
         public string saveConfig(FormCollection pinData)
         {
-            var test = pinData.ToString();
+            foreach (string key in pinData.AllKeys)
+            {
+                Console.WriteLine("Key" + key);
+                Console.WriteLine(pinData[key]);
+
+
+            }
             //return RedirectToAction("Index");
             return pinData.ToString();
         }
