@@ -53,5 +53,13 @@ namespace Raspberry_LED.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public string saveConfig(FormCollection pinData)
+        {
+            var test = pinData.ToString();
+            //return RedirectToAction("Index");
+            return pinData.ToString();
+        }
     }
 }
