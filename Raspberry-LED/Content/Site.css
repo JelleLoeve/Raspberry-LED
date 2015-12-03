@@ -26,6 +26,8 @@ textarea {
 
 /*Start of custom css code*/
 
+
+/*menu bar*/
 .nav{
     background:#222222;
     display:inline-block;
@@ -75,3 +77,37 @@ textarea {
     color:whitesmoke;
     background:silver;
 }
+/*End menu bar*/
+
+
+/*Raspbarry config page*/
+
+#left_table, #right_table{
+    float:left;
+    margin-top:20px;
+}
+#left_table{
+    margin-right:130px;
+}
+
+td{
+
+    background-color:white;
+    height: 49px;
+    width: 100px;
+    border:1px dashed red;
+
+}
+thead{
+    width: 200px;
+}
+#tablesWrapper{
+    background: url('http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/RaspberryPi_GPIO/images/RaspberryPiModelBPinOut.jpg') no-repeat;
+    display:block;
+    width: 400px;
+    height: 693px;
+}
+input{
+    width:100%;
+}
+/*End raspbarry config page*/

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Raspberry.IO.GeneralPurpose;
@@ -48,10 +49,20 @@ namespace Raspberry_LED_Client
                     {
                         parameters = typcom[2];
                     }
-
+                    switch (commandtype)
+                    {
+                        case "MUSIC":
+                            Console.WriteLine("Let it play, let is play, let it play");
+                            Console.WriteLine(command);
+                            break;
+                        case "SYS":
+                            Console.WriteLine("System command");
+                            break;
+                        default:
+                            Console.WriteLine("Commandtype '{0}' is not configured", commandtype);
+                            break;
+                    }
                     Console.WriteLine(strData + Environment.NewLine);
-                    
-                    Console.WriteLine(Environment.NewLine);
                 }
                 else
                 {
@@ -66,6 +77,16 @@ namespace Raspberry_LED_Client
             var led = ((ConnectorPin) LED).Output();
             var connection = new GpioConnection(led);
             connection.Toggle(led);
+        }
+
+        private static bool PlayMusic(string musicFile)
+        {
+			Process proc = new Process();
+			proc.EnableRaisingEvents=false; 
+			proc.StartInfo.FileName = "mplayer";
+			proc.StartInfo.Arguments = "-t wav /home/pi/rc/media/honk.wav";
+			proc.Start();
+            return false;
         }
     }
 }
