@@ -56,7 +56,7 @@ namespace Raspberry_LED_Client
                             Console.WriteLine(command);
                             Process proc = new Process();
                             proc.EnableRaisingEvents = false;
-                            proc.StartInfo.FileName = @"C:\Program Files (x86)\VideoLAN\VLC\vlc.exe";
+                            proc.StartInfo.FileName = @"mplayer";
                             proc.StartInfo.Arguments = command;
                             proc.Start();
                             break;

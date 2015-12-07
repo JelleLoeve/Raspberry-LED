@@ -167,6 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PinconfigsController.cs" />
     <Compile Include="Controllers\RaspberryController.cs" />
     <Compile Include="Controllers\RouterController.cs" />
     <Compile Include="Global.asax.cs">
@@ -222,6 +223,11 @@
     <Content Include="Views\Router\Status.cshtml" />
     <Content Include="Views\Raspberry\Error.cshtml" />
     <Content Include="Views\Raspberry\Config.cshtml" />
+    <Content Include="Views\Pinconfigs\Create.cshtml" />
+    <Content Include="Views\Pinconfigs\Delete.cshtml" />
+    <Content Include="Views\Pinconfigs\Details.cshtml" />
+    <Content Include="Views\Pinconfigs\Edit.cshtml" />
+    <Content Include="Views\Pinconfigs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

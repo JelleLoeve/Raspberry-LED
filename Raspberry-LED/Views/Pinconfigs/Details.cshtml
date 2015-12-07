@@ -1,0 +1,50 @@
+﻿@model Raspberry_LED.Models.Pinconfig
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Pinconfig</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.pinnumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pinnumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.color)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.color)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isSet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isSet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isOn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

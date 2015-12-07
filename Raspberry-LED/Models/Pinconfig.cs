@@ -5,6 +5,7 @@ namespace Raspberry_LED.Models
 {
     public class Pinconfig
     {
+        public int ID { get; set; }
         public int pinnumber { get; set; }
 
         public string color { get; set; }
@@ -16,7 +17,7 @@ namespace Raspberry_LED.Models
     }
     public class PinConfigDBContext : DbContext
     {
-        public DbSet<Pinconfig> pinconfig { get; set; }
+        public DbSet<Pinconfig> PinConfigs { get; set; }
 
     }
 }
