@@ -167,7 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RasperryController.cs" />
+    <Compile Include="Controllers\RaspberryController.cs" />
     <Compile Include="Controllers\RouterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -214,13 +214,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Rasperry\Index.cshtml" />
+    <Content Include="Views\Raspberry\Index.cshtml" />
     <Content Include="Views\Router\Index.cshtml" />
-    <Content Include="Views\Rasperry\Ping.cshtml" />
+    <Content Include="Views\Raspberry\Ping.cshtml" />
     <Content Include="Views\Router\Ping.cshtml" />
     <Content Include="Views\Router\Status.cshtml" />
-    <Content Include="Views\Rasperry\Error.cshtml" />
-    <Content Include="Views\Rasperry\Config.cshtml" />
+    <Content Include="Views\Raspberry\Error.cshtml" />
+    <Content Include="Views\Raspberry\Config.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
