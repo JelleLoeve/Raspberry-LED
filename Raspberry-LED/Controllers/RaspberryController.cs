@@ -6,11 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Raspberry_LED.Helpers;
+using Raspberry_LED.Models;
 
 namespace Raspberry_LED.Controllers
 {
     public class RaspberryController : Controller
     {
+        private PinConfigDBContext db = new PinConfigDBContext();
         // GET: Raspberry
         public ActionResult Index()
         {
@@ -57,15 +59,19 @@ namespace Raspberry_LED.Controllers
         [HttpPost]
         public string saveConfig(FormCollection pinData)
         {
-            foreach (string key in pinData.AllKeys)
-            {
-                Console.WriteLine("Key" + key);
-                Console.WriteLine(pinData[key]);
-
-
-            }
+            //foreach (string key in pinData.AllKeys)
+            //{
+            //    Console.WriteLine("Key" + key);
+            //    Console.WriteLine(pinData[key]);
+            //}
             //return RedirectToAction("Index");
-            return pinData.ToString();
+
+            foreach (var key in pinData.AllKeys)
+            {
+                Console.WriteLine(pinData);
+            }
+
+            return pinData[0];
         }
     }
 }
