@@ -23,6 +23,9 @@ namespace Raspberry_LED_Client
 
         public static void Main()
         {
+            Console.WriteLine(ConnectorPin.P1Pin3.ToProcessor());
+
+
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(new IPEndPoint(0, ServerPort));
             while (true)
@@ -82,6 +85,8 @@ namespace Raspberry_LED_Client
             var led = ((ConnectorPin) LED).Output();
             var connection = new GpioConnection(led);
             connection.Toggle(led);
+            
+
         }
 
         private static bool PlayMusic(string musicFile)

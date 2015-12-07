@@ -19,37 +19,37 @@
     {
         if (item.isSet)
         {
-            string state;
-            if (item.isOn) { state = "on"; }
-            else { state = "off"; }
+            var link = "/Raspberry/ChangeLed/" + item.ID;
+            var state = item.isOn ? "on" : "off";
+            <form action=@link>
+                @if (item.color == "red")
+                {
+                    <label class="RedButton">
+                        @state<button style="display: none;" type="button">  </button>
+                    </label>
+                }
 
-            if (item.color == "red")
-            {
-            <label class="RedButton">
-                <p>@state</p><button style="display: none;" type="button">  </button>
-            </label>
-            }
+                @if (item.color == "blue")
+                {
+                <label class="BlueButton">
+                    <p>@state</p><button style="display: none;" type="button">  </button>
+                </label>
+                }
 
-            if (item.color == "blue")
-            {
-            <label class="BlueButton">
-                <p>@state</p><button style="display: none;" type="button">  </button>
-            </label>
-            }
+                @if (item.color == "green")
+                {
+                    <label class="GreenButton">
+                        <p>@state</p><button style="display: none;" type="button"> </button>
+                    </label>
+                }
 
-            if (item.color == "green")
-            {
-            <label class="GreenButton">
-                <p>@state</p><button style="display: none;" type="button">  </button>
-            </label>
-            }
-
-            if (item.color == "rbg")
-            {
-            <label class="RBGButton">
-                <p>@state</p><button style="display: none;" type="button">  </button>
-            </label>
-            }
+                @if (item.color == "rbg")
+                {
+                    <label class="RBGButton">
+                        <p>@state</p><button style="display: none;" type="button">  </button>
+                    </label>
+                }
+            </form>
         }
     }
 </div>

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Owin.Security.Provider;
 using Raspberry_LED.Helpers;
 using Raspberry_LED.Models;
 
@@ -58,21 +59,33 @@ namespace Raspberry_LED.Controllers
         }
 
         [HttpPost]
-        public string saveConfig(FormCollection pinData)
+        public ActionResult saveConfig(FormCollection pinData)
         {
-            //foreach (string key in pinData.AllKeys)
-            //{
-            //    Console.WriteLine("Key" + key);
-            //    Console.WriteLine(pinData[key]);
-            //}
-            //return RedirectToAction("Index");
-
+            ViewBag.ErrorMessage = "Not yet fully working";
+            return View("_Error");
+            var i = 1;
             foreach (var key in pinData.AllKeys)
             {
-                Console.WriteLine(pinData);
+                string inputedValue = pinData[key];
+                var test = db.PinConfigs.Find(i);
+                test.color = "";
+                test.isSet = false;
+                if (inputedValue != "" || inputedValue != "saveConfig")
+                {
+                    test.color = pinData[key];
+                    test.isSet = true;
+                    Debug.WriteLine(pinData[key]);
+                }
+                i++;
             }
+            db.SaveChanges();
+            //return null;
+        }
 
-            return pinData[0];
+        public ActionResult ChangeLed(int? id)
+        {
+
+            return RedirectToAction("Index");
         }
     }
 }
