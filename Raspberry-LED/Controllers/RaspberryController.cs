@@ -17,7 +17,7 @@ namespace Raspberry_LED.Controllers
         // GET: Raspberry
         public ActionResult Index()
         {
-            return View();
+            return View(db.PinConfigs.ToList());
         }
         public ActionResult Ping()
         {

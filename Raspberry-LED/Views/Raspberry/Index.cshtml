@@ -12,3 +12,44 @@
         <input type="submit" name="Submit" id="Submit" value="Upload" />
     }
 </div>
+
+<div class="buttons">
+
+    @foreach (var item in Model)
+    {
+        if (item.isSet)
+        {
+            string state;
+            if (item.isOn) { state = "on"; }
+            else { state = "off"; }
+
+            if (item.color == "red")
+            {
+            <label class="RedButton">
+                <p>@state</p><button style="display: none;" type="button">  </button>
+            </label>
+            }
+
+            if (item.color == "blue")
+            {
+            <label class="BlueButton">
+                <p>@state</p><button style="display: none;" type="button">  </button>
+            </label>
+            }
+
+            if (item.color == "green")
+            {
+            <label class="GreenButton">
+                <p>@state</p><button style="display: none;" type="button">  </button>
+            </label>
+            }
+
+            if (item.color == "rbg")
+            {
+            <label class="RBGButton">
+                <p>@state</p><button style="display: none;" type="button">  </button>
+            </label>
+            }
+        }
+    }
+</div>

@@ -111,3 +111,58 @@ input{
     width:100%;
 }
 /*End raspbarry config page*/
+
+/*Begin Raspberry index page*/
+.buttons{
+    margin-top:50px;
+}
+
+.RedButton{
+    width:100px;
+    height:100px;
+    border-radius:50px;
+    font-size:20px;
+    color:white;
+    line-height:100px;
+    text-align:center;
+    background:red;
+    margin-right:30px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.BlueButton{
+    width:100px;
+    height:100px;
+    border-radius:50px;
+    font-size:20px;
+    color:white;
+    line-height:100px;
+    text-align:center;
+    background:blue;
+    margin-right:30px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.GreenButton{
+    width:100px;
+    height:100px;
+    border-radius:50px;
+    font-size:20px;
+    color:white;
+    line-height:100px;
+    text-align:center;
+    background:green;
+    margin-right:30px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.RBGButton{
+    width:100px;
+    height:100px;
+    border-radius:50px;
+    font-size:20px;
+    color:white;
+    line-height:100px;
+    text-align:center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
