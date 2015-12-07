@@ -175,6 +175,7 @@
     <Compile Include="Helpers\CommonHelpers.cs" />
     <Compile Include="Helpers\PingHelper.cs" />
     <Compile Include="Helpers\SocketHelper.cs" />
+    <Compile Include="Models\Pinconfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -224,7 +225,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
