@@ -4,8 +4,8 @@
 # We need to include my(Starlight_NL) custom raspberry-sharp libraries
 !libs/*
 #We are uploading stuff but we don't want that in github
-Uploads/* 
-
+*/Uploads/* 
+!*/Images/*
 # User-specific files
 *.suo
 *.user
