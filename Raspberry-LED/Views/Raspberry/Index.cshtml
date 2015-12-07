@@ -5,9 +5,10 @@
 <h1>Raspberry Pagina</h1>
 
 <p>Welkom bij Raspberry controller</p>
-
-@using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <input type="file" name="file" />
-    <input type="submit" name="Submit" id="Submit" value="Upload" />
-}
+<div id="musicUpload">
+    @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="file" />
+        <input type="submit" name="Submit" id="Submit" value="Upload" />
+    }
+</div>
