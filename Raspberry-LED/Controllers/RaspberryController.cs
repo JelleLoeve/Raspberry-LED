@@ -40,7 +40,7 @@ namespace Raspberry_LED.Controllers
 
         public ActionResult Config()
         {
-            return View();
+            return View(db.PinConfigs.ToList());
         }
 
         [HttpPost]
@@ -66,11 +66,6 @@ namespace Raspberry_LED.Controllers
             //    Console.WriteLine(pinData[key]);
             //}
             //return RedirectToAction("Index");
-
-            foreach (var key in pinData.AllKeys)
-            {
-                Console.WriteLine(pinData);
-            }
 
             return pinData[0];
         }
