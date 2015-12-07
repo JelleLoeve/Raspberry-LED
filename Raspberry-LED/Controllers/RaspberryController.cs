@@ -41,7 +41,7 @@ namespace Raspberry_LED.Controllers
 
         public ActionResult Config()
         {
-            return View();
+            return View(db.PinConfigs.ToList());
         }
 
         [HttpPost]
@@ -61,6 +61,7 @@ namespace Raspberry_LED.Controllers
         [HttpPost]
         public ActionResult saveConfig(FormCollection pinData)
         {
+<<<<<<< HEAD
             ViewBag.ErrorMessage = "Not yet fully working";
             return View("_Error");
             var i = 1;
@@ -86,6 +87,16 @@ namespace Raspberry_LED.Controllers
         {
 
             return RedirectToAction("Index");
+=======
+            //foreach (string key in pinData.AllKeys)
+            //{
+            //    Console.WriteLine("Key" + key);
+            //    Console.WriteLine(pinData[key]);
+            //}
+            //return RedirectToAction("Index");
+
+            return pinData[0];
+>>>>>>> b916d7a8dc6a886b98ed38bc3512620b3ee0395e
         }
     }
 }
