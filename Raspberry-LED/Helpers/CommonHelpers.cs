@@ -17,11 +17,11 @@ namespace Raspberry_LED.Helpers
             //FtpWebRequest request = =WebRequest.Create("ftp://127.0.0.1/" + filename);
             //request.Method = WebRequestMethods.Ftp.UploadFile;
 
-            var ftpww = File.ReadAllLines(@"F:\ww.txt"); // I don't want everyone to know my personal password.
+            //var ftpww = File.ReadAllLines(@"F:\ww.txt"); // I don't want everyone to know my personal password.
 
             using (WebClient request = new WebClient())
             {
-                request.Credentials = new NetworkCredential("Starlight", ftpww[0]);
+               // request.Credentials = new NetworkCredential("Starlight", ftpww[0]);
                 request.UploadFile("ftp://127.0.0.1/" + filename, "STOR", filepath);
                 var response = request.ResponseHeaders;
                 SocketHelper _socketHelper = new SocketHelper("127.0.0.1");

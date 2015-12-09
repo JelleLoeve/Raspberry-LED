@@ -23,8 +23,8 @@ namespace Raspberry_LED.Controllers
         public ActionResult Ping()
         {
             // Uncomment this code to test the socket connection
-            /* SocketHelper _socketHelper = new SocketHelper("127.0.0.1");
-            if (_socketHelper.connectToSocket())
+            SocketHelper _socketHelper = new SocketHelper("127.0.0.1");
+            if (_socketHelper.ConnectToSocket())
             {
                 ViewBag.PingResults = PingHelper.Ping("127.0.0.1");
                 return View();
@@ -32,9 +32,9 @@ namespace Raspberry_LED.Controllers
             else
             {
                 return View("Error");
-            } */
+            }
             
-            ViewBag.PingResults = PingHelper.Ping("127.0.0.1");
+            //ViewBag.PingResults = PingHelper.Ping("127.0.0.1");
             return View();
 
         }

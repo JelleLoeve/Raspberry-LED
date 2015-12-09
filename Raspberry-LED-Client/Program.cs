@@ -18,12 +18,12 @@ namespace Raspberry_LED_Client
         static Socket accepted = null;
         
         public static int ServerPort = 12345;
-        
 
+        public static string ftpPath = "D:/AO/ASP.NET/Raspberry-LED/Files/";
 
         public static void Main()
         {
-            Console.WriteLine(ConnectorPin.P1Pin3.ToProcessor());
+            //Console.WriteLine(ConnectorPin.P1Pin3.ToProcessor());
 
 
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -59,8 +59,8 @@ namespace Raspberry_LED_Client
                             Console.WriteLine(command);
                             Process proc = new Process();
                             proc.EnableRaisingEvents = false;
-                            proc.StartInfo.FileName = @"mplayer";
-                            proc.StartInfo.Arguments = command;
+                            proc.StartInfo.FileName = @"C:\Program Files (x86)\VideoLAN\VLC\vlc.exe";
+                            proc.StartInfo.Arguments = "\"file:///" + ftpPath + command + "\"";
                             proc.Start();
                             break;
                         case "SYS":
@@ -70,12 +70,12 @@ namespace Raspberry_LED_Client
                             Console.WriteLine("Commandtype '{0}' is not configured", commandtype);
                             break;
                     }
-                    Console.WriteLine(strData + Environment.NewLine);
                 }
                 else
                 {
                     Console.WriteLine("Can't parse \"" + strData + "\" as a command.");
                 }
+                Console.WriteLine(strData + Environment.NewLine);
                 Thread.Sleep(50);
             }// End of while loop
         } // End of Main function
