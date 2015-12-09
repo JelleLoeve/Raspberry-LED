@@ -90,15 +90,17 @@ textarea {
     margin-right:130px;
 }
 
-td{
+#tablesWrapper td{
     background-color:white;
     height: 34px;
     width: 100px;
-    border:1px dashed red;
+    border:1px dashed Gainsboro ;
 
 }
-thead{
-    width: 200px;
+
+#tablesWrapper td p{
+    font-style:italic;
+    color:red;
 }
 #tablesWrapper{
     background: url('../Images/gpioImage.png') no-repeat;
