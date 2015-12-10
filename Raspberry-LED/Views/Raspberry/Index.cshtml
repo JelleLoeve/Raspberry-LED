@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<p>@ViewBag.ErrorMessage</p>
 <h1>Raspberry Pagina</h1>
 
 <p>Welkom bij Raspberry controller</p>
@@ -19,34 +20,34 @@
     {
         if (item.isSet)
         {
-            var link = "/Raspberry/ChangeLed/" + item.ID;
+            var link = "/Raspberry/ChangeLed/" + item.pinnumber;
             var state = item.isOn ? "on" : "off";
             <form action=@link>
                 @if (item.color == "red")
                 {
                     <label class="RedButton">
-                        @state<button style="display: none;" type="button">  </button>
+                        <p>@state</p><input style="display: none;" type="submit" />
                     </label>
                 }
 
                 @if (item.color == "blue")
                 {
                 <label class="BlueButton">
-                    <p>@state</p><button style="display: none;" type="button">  </button>
+                    <p>@state</p><input style="display: none;" type="submit"/>
                 </label>
                 }
 
                 @if (item.color == "green")
                 {
                     <label class="GreenButton">
-                        <p>@state</p><button style="display: none;" type="button"> </button>
+                        <p>@state</p><input style="display: none;" type="submit" />
                     </label>
                 }
 
                 @if (item.color == "rbg")
                 {
                     <label class="RBGButton">
-                        <p>@state</p><button style="display: none;" type="button">  </button>
+                        <p>@state</p><input style="display: none;" type="submit" />
                     </label>
                 }
             </form>

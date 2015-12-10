@@ -34,7 +34,7 @@ namespace Raspberry_LED.Helpers
         /// </summary>
         /// <param name="commandType">The command type. </param>
         /// <param name="command"></param>
-        public void SendToServer(string commandType, string command)
+        public void SendToServer(string commandType, object command)
         {
             Reconnect();
             string dataToSend = commandType + ":" + command;

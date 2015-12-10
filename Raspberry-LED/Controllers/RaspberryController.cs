@@ -15,15 +15,19 @@ namespace Raspberry_LED.Controllers
     public class RaspberryController : Controller
     {
         private PinConfigDBContext db = new PinConfigDBContext();
+        SocketHelper _socketHelper = new SocketHelper("127.0.0.1");
+        private string _errorMessage;
         // GET: Raspberry
         public ActionResult Index()
         {
+            ViewBag.ErrorMessage = _errorMessage;
+            _errorMessage = "";
             return View(db.PinConfigs.ToList());
         }
         public ActionResult Ping()
         {
             // Uncomment this code to test the socket connection
-            SocketHelper _socketHelper = new SocketHelper("127.0.0.1");
+            
             if (_socketHelper.ConnectToSocket())
             {
                 ViewBag.PingResults = PingHelper.Ping("127.0.0.1");
@@ -85,8 +89,17 @@ namespace Raspberry_LED.Controllers
 
         public ActionResult ChangeLed(int? id)
         {
-
-            return RedirectToAction("Index");
+            if (_socketHelper.ConnectToSocket())
+            {
+                _socketHelper.SendToServer(CommonHelpers.COMMANDTYPES.TOGGLELED, id);
+                _errorMessage = "Toggled led";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Error");
+            }
+            
         }
     }
 }

@@ -19,13 +19,12 @@ namespace Raspberry_LED_Client
         
         public static int ServerPort = 12345;
 
-        public static string ftpPath = "D:/AO/ASP.NET/Raspberry-LED/Files/";
+        public static string ftpPath;
 
         public static void Main()
         {
-            //Console.WriteLine(ConnectorPin.P1Pin3.ToProcessor());
-
-
+            Console.WriteLine(ConnectorPin.P1Pin13.ToProcessor());
+            ftpPath = !IsLinux ? "D:/AO/ASP.NET/Raspberry-LED/Files/" : "/home/pi/music/Raspberry-LED/";
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(new IPEndPoint(0, ServerPort));
             while (true)
@@ -59,12 +58,24 @@ namespace Raspberry_LED_Client
                             Console.WriteLine(command);
                             Process proc = new Process();
                             proc.EnableRaisingEvents = false;
-                            proc.StartInfo.FileName = @"C:\Program Files (x86)\VideoLAN\VLC\vlc.exe";
-                            proc.StartInfo.Arguments = "\"file:///" + ftpPath + command + "\"";
+                            if (!IsLinux)
+                            {
+                                proc.StartInfo.FileName = @"C:\Program Files (x86)\VideoLAN\VLC\vlc.exe";
+                                proc.StartInfo.Arguments = "\"file:///" + ftpPath + command + "\"";
+                            }
+                            else
+                            {
+                                proc.StartInfo.FileName = "mplayer";
+                                proc.StartInfo.Arguments = "\"" + ftpPath + command + "\"";
+                            }
                             proc.Start();
                             break;
                         case "SYS":
                             Console.WriteLine("System command");
+                            break;
+                            
+                        case "LED":
+                            
                             break;
                         default:
                             Console.WriteLine("Commandtype '{0}' is not configured", commandtype);
@@ -79,24 +90,5 @@ namespace Raspberry_LED_Client
                 Thread.Sleep(50);
             }// End of while loop
         } // End of Main function
-
-        private static void changeLed(LEDS LED, bool state)
-        {
-            var led = ((ConnectorPin) LED).Output();
-            var connection = new GpioConnection(led);
-            connection.Toggle(led);
-            
-
-        }
-
-        private static bool PlayMusic(string musicFile)
-        {
-			Process proc = new Process();
-			proc.EnableRaisingEvents=false; 
-			proc.StartInfo.FileName = "mplayer";
-			proc.StartInfo.Arguments = "-t wav /home/pi/rc/media/honk.wav";
-			proc.Start();
-            return false;
-        }
     }
 }

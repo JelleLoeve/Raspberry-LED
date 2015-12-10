@@ -1,15 +1,18 @@
-﻿using Raspberry.IO.GeneralPurpose;
+﻿using System;
+using Raspberry.IO.GeneralPurpose;
 
 namespace Raspberry_LED_Client
 {
     class Helpers
     {
-        public enum LEDS
+        public static bool IsLinux
         {
-            LED1 = ConnectorPin.P1Pin11,
-            LED2 = 2,
-            LED3 = 3,
-            LED4 = 4
+            get
+            {
+                int p = (int) Environment.OSVersion.Platform;
+                return (p == 4) || (p == 6) || (p == 128);
+            }
         }
+
     }
 }
