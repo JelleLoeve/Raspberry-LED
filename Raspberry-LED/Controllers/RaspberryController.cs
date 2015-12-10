@@ -61,16 +61,17 @@ namespace Raspberry_LED.Controllers
         [HttpPost]
         public ActionResult saveConfig(FormCollection pinData)
         {
-            ViewBag.ErrorMessage = "Not yet fully working";
-            return View("_Error");
+            //ViewBag.ErrorMessage = "Not yet fully working";
+            //return View("_Error");
             var i = 1;
             foreach (var key in pinData.AllKeys)
             {
+                if (key == "saveConfig") continue;
                 string inputedValue = pinData[key];
                 var test = db.PinConfigs.Find(i);
                 test.color = "";
                 test.isSet = false;
-                if (inputedValue != "" || inputedValue != "saveConfig")
+                if (inputedValue != string.Empty && inputedValue != "saveConfig")
                 {
                     test.color = pinData[key];
                     test.isSet = true;
@@ -79,7 +80,7 @@ namespace Raspberry_LED.Controllers
                 i++;
             }
             db.SaveChanges();
-            //return null;
+            return null;
         }
 
         public ActionResult ChangeLed(int? id)
