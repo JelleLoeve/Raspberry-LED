@@ -17,7 +17,7 @@ namespace Raspberry_LED_Client
         static Socket socket;
         static Socket accepted = null;
         
-        public static int ServerPort = 12345;
+        public static int ServerPort = 1234;
 
         public static string ftpPath;
 

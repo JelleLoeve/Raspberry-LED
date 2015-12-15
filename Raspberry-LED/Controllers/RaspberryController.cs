@@ -14,15 +14,18 @@ namespace Raspberry_LED.Controllers
 {
     public class RaspberryController : Controller
     {
-        private PinConfigDBContext db = new PinConfigDBContext();
+        private PinConfigDBContext pindb = new PinConfigDBContext();
+        private UploadDBContext uploaddb = new UploadDBContext();
         SocketHelper _socketHelper = new SocketHelper("127.0.0.1");
         private string _errorMessage;
         // GET: Raspberry
         public ActionResult Index()
         {
-            ViewBag.ErrorMessage = _errorMessage;
+            ViewBag.ErrorType = _errorMessage;
             _errorMessage = "";
-            return View(db.PinConfigs.ToList());
+            List<object> list = new List<object> {pindb.PinConfigs.ToList(), uploaddb.Uploads.ToList()};
+
+            return View(list);
         }
         public ActionResult Ping()
         {
@@ -35,44 +38,52 @@ namespace Raspberry_LED.Controllers
             }
             else
             {
-                return View("Error");
+                ViewBag.ErrorType = "NoConnection";
+                return View("_Error");
             }
-            
-            //ViewBag.PingResults = PingHelper.Ping("127.0.0.1");
-            return View();
 
         }
 
         public ActionResult Config()
         {
-            return View(db.PinConfigs.ToList());
+            return View(pindb.PinConfigs.ToList());
         }
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
+        public ActionResult Upload(HttpPostedFileBase file, FormCollection postData)
         {
             if (file != null && file.ContentLength > 0)
             {
+                var fileType = file.ContentType;
                 var fileName = Path.GetFileName(file.FileName);
                 var path = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
-                file.SaveAs(path);
-                CommonHelpers.FTPUpload(path, fileName);
+                if (!System.IO.File.Exists(path))
+                {
+                    var uploads = new Upload();
+                    uploads.Alias = postData["alias"];
+                    uploads.FileName = fileName;
+                    uploads.Type = fileType;
+                    uploaddb.Uploads.Add(uploads);
+                    uploaddb.SaveChanges();
+                    file.SaveAs(path);
+                    CommonHelpers.FTPUpload(path, fileName);
+                }
+                _socketHelper.SendToServer(CommonHelpers.COMMANDTYPES.MUSIC, fileName);
             }
 
             return RedirectToAction("Index");
+
         }
 
         [HttpPost]
         public ActionResult saveConfig(FormCollection pinData)
         {
-            //ViewBag.ErrorMessage = "Not yet fully working";
-            //return View("_Error");
             var i = 1;
             foreach (var key in pinData.AllKeys)
             {
                 if (key == "saveConfig") continue;
                 string inputedValue = pinData[key];
-                var test = db.PinConfigs.Find(i);
+                var test = pindb.PinConfigs.Find(i);
                 test.color = "";
                 test.isSet = false;
                 if (inputedValue != string.Empty && inputedValue != "saveConfig")
@@ -83,7 +94,7 @@ namespace Raspberry_LED.Controllers
                 }
                 i++;
             }
-            db.SaveChanges();
+            pindb.SaveChanges();
             return null;
         }
 

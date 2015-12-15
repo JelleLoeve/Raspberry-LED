@@ -7,16 +7,22 @@
 
 <p>Welkom bij Raspberry controller</p>
 <div id="musicUpload">
-    @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new {enctype = "multipart/form-data"}))
     {
-        <input type="file" name="file" />
-        <input type="submit" name="Submit" id="Submit" value="Upload" />
+        <input type="file" name="file"/>
+        <input type="submit" name="Submit" id="Submit" value="Upload"/>
     }
 </div>
-
+@foreach (var item in Model[1])
+{
+    <p>@item.ID</p>
+    <p>@item.FileName</p>
+    <p>@item.Alias</p>
+    <p>@item.Type</p>
+}
 <div class="buttons">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model[0])
     {
         if (item.isSet)
         {

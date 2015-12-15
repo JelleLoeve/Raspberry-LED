@@ -8,7 +8,7 @@ namespace Raspberry_LED.Helpers
 {
 	public class SocketHelper
 	{
-	    public static int ServerSocketPort = 12345;
+	    public static int ServerSocketPort = 1234;
         private Socket socket = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private IPEndPoint ipendpoint;
         
@@ -43,11 +43,6 @@ namespace Raspberry_LED.Helpers
             Console.WriteLine("Data send! Data: \"" + dataToSend + "\"");
             socket.Close();
             Thread.Sleep(50);
-        }
-
-        public void Close()
-        {
-            socket.Close();
         }
 
         public void Reconnect()
