@@ -9,8 +9,18 @@
 <div id="musicUpload">
     @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new {enctype = "multipart/form-data"}))
     {
+        <p>Select a already uploaded file</p>
+        <select name="SelectedFileID">
+            @foreach (var item in Model[1])
+            {
+                <option value="@item.ID">@item.Alias</option>
+            }
+        </select>
+        <p>Upload a new file:</p>
+        <input type="text" name="Alias" id="Alias" placeholder="Enter file alias here"/>
         <input type="file" name="file"/>
-        <input type="submit" name="Submit" id="Submit" value="Upload"/>
+
+        <input type="submit" name="Submit" id="Submit" value="Play File"/>
     }
 </div>
 @foreach (var item in Model[1])

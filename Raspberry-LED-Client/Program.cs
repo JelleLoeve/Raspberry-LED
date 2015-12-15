@@ -17,7 +17,7 @@ namespace Raspberry_LED_Client
         static Socket socket;
         static Socket accepted = null;
         
-        public static int ServerPort = 1234;
+        public static int ServerPort = 20020;
 
         public static string ftpPath;
 
@@ -68,7 +68,7 @@ namespace Raspberry_LED_Client
                                 proc.StartInfo.FileName = "mplayer";
                                 proc.StartInfo.Arguments = "\"" + ftpPath + command + "\"";
                             }
-                            proc.Start();
+                            //proc.Start();
                             break;
                         case "SYS":
                             Console.WriteLine("System command");

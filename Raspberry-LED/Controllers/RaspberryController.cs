@@ -57,18 +57,27 @@ namespace Raspberry_LED.Controllers
                 var fileType = file.ContentType;
                 var fileName = Path.GetFileName(file.FileName);
                 var path = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
-                if (!System.IO.File.Exists(path))
+                var results = uploaddb.Uploads.SqlQuery("SELECT * FROM Uploads WHERE FileName='" + fileName + "'");
+                if (!System.IO.File.Exists(path) || results == null)
                 {
-                    var uploads = new Upload();
-                    uploads.Alias = postData["alias"];
-                    uploads.FileName = fileName;
-                    uploads.Type = fileType;
+                    var uploads = new Upload
+                    {
+                        Alias = postData["alias"],
+                        FileName = fileName,
+                        Type = fileType
+                    };
                     uploaddb.Uploads.Add(uploads);
                     uploaddb.SaveChanges();
                     file.SaveAs(path);
                     CommonHelpers.FTPUpload(path, fileName);
                 }
                 _socketHelper.SendToServer(CommonHelpers.COMMANDTYPES.MUSIC, fileName);
+            }
+            else if (postData["SelectedFileID"] != null)
+            {
+                int id = int.Parse(postData["SelectedFileID"]);
+                var result = uploaddb.Uploads.Find(id);
+                _socketHelper.SendToServer(CommonHelpers.COMMANDTYPES.MUSIC, result.FileName);
             }
 
             return RedirectToAction("Index");
@@ -81,18 +90,20 @@ namespace Raspberry_LED.Controllers
             var i = 1;
             foreach (var key in pinData.AllKeys)
             {
-                if (key == "saveConfig") continue;
-                string inputedValue = pinData[key];
-                var test = pindb.PinConfigs.Find(i);
-                test.color = "";
-                test.isSet = false;
-                if (inputedValue != string.Empty && inputedValue != "saveConfig")
+                if (key != "saveConfig")
                 {
-                    test.color = pinData[key];
-                    test.isSet = true;
-                    Debug.WriteLine(pinData[key]);
+                    string inputedValue = pinData[key];
+                    var test = pindb.PinConfigs.Find(i);
+                    test.color = "";
+                    test.isSet = false;
+                    if (inputedValue != string.Empty && inputedValue != "saveConfig")
+                    {
+                        test.color = pinData[key];
+                        test.isSet = true;
+                        Debug.WriteLine(pinData[key]);
+                    }
+                    i++;
                 }
-                i++;
             }
             pindb.SaveChanges();
             return null;
