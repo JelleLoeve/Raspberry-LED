@@ -23,8 +23,7 @@ namespace Raspberry_LED_Client
 
         public static void Main()
         {
-            Console.WriteLine(ConnectorPin.P1Pin13.ToProcessor());
-            ftpPath = !IsLinux ? "D:/AO/ASP.NET/Raspberry-LED/Files/" : "/home/pi/music/Raspberry-LED/";
+            ftpPath = !IsLinux ? "C:/inetpub/ftproot/" : "/home/pi/music/Raspberry-LED/";
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Bind(new IPEndPoint(0, ServerPort));
             while (true)
@@ -68,7 +67,7 @@ namespace Raspberry_LED_Client
                                 proc.StartInfo.FileName = "mplayer";
                                 proc.StartInfo.Arguments = "\"" + ftpPath + command + "\"";
                             }
-                            //proc.Start();
+                            proc.Start();
                             break;
                         case "SYS":
                             Console.WriteLine("System command");

@@ -8,7 +8,7 @@ namespace Raspberry_LED.Helpers
 {
 	public class SocketHelper
 	{
-	    public static int ServerSocketPort = 1234;
+	    public static int ServerSocketPort = 20020;
         private Socket socket = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private IPEndPoint ipendpoint;
         
