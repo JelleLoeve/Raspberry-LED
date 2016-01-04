@@ -17,3 +17,8 @@
 {
     <h2>Can't reach the pi on 192.168.1.101. Check the pi.</h2>
 }
+@if (ViewBag.ErrorType == "NoFileFound")
+{
+    <h2>Requested file @ViewBag.FileName not found.</h2>
+    <p>The server and Raspberry pi couldn't find the file @ViewBag.FileName<br/>Please reupload the file.</p>
+}

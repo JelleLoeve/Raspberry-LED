@@ -60,28 +60,44 @@ namespace Raspberry_LED.Controllers
                 var results = uploaddb.Uploads.SqlQuery("SELECT * FROM Uploads WHERE FileName='" + fileName + "'");
                 if (!System.IO.File.Exists(path) || results == null)
                 {
-                    var uploads = new Upload
+                    file.SaveAs(path);
+                    CommonHelpers.FTPUpload(path, fileName);
+                    uploaddb.Uploads.Add(new Upload
                     {
                         Alias = postData["alias"],
                         FileName = fileName,
                         Type = fileType
-                    };
-                    uploaddb.Uploads.Add(uploads);
+                    });
                     uploaddb.SaveChanges();
-                    file.SaveAs(path);
-                    CommonHelpers.FTPUpload(path, fileName);
                 }
-                _socketHelper.SendToServer(CommonHelpers.COMMANDTYPES.MUSIC, fileName);
+                SocketSendAndRecieve thread1 = new SocketSendAndRecieve(CommonHelpers.COMMANDTYPES.MUSIC, fileName);
+                thread1.SendCommand();
+                return RedirectToAction("Index");
             }
             else if (postData["SelectedFileID"] != null)
             {
                 int id = int.Parse(postData["SelectedFileID"]);
                 var result = uploaddb.Uploads.Find(id);
-                _socketHelper.SendToServer(CommonHelpers.COMMANDTYPES.MUSIC, result.FileName);
+                //_socketHelper.SendToServer(CommonHelpers.COMMANDTYPES.MUSIC, result.FileName);
+                SocketSendAndRecieve thread1 = new SocketSendAndRecieve(CommonHelpers.COMMANDTYPES.MUSIC, result.FileName);
+                thread1.SendCommand();
+                if (thread1.GetRecievedData() == "NoFile")
+                {
+                    var path = Path.Combine(Server.MapPath("~/Uploads/"), result.FileName);
+                    uploaddb.Uploads.SqlQuery($"DELETE Uploads WHERE ID={id}");
+                    if (System.IO.File.Exists(path))
+                    {
+                        CommonHelpers.FTPUpload(path, result.FileName);
+                        thread1.SendCommand();
+                    }
+                    else
+                    {
+                        ViewBag.ErrorType = "NoFileFound";
+                        return View("_Error");
+                    }
+                }
             }
-
             return RedirectToAction("Index");
-
         }
 
         [HttpPost]
