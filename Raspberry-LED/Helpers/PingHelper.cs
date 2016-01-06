@@ -9,7 +9,7 @@ namespace Raspberry_LED.Helpers
 {
     public class PingHelper
     {
-        private static PingResultDBContext db = new PingResultDBContext();
+        private static PingResultsDBContext db = new PingResultsDBContext();
         public static string Ping(string ip)
         {
             var datum = DateTime.Now.ToString("dd-MM-yyyy");
@@ -30,6 +30,7 @@ namespace Raspberry_LED.Helpers
                 {
                     Date = datum,
                     Time = tijd,
+                    IP = ip,
                     Ping = "Ping failed"
                 });
                 db.SaveChanges();
@@ -42,7 +43,8 @@ namespace Raspberry_LED.Helpers
                 {
                     Date = datum,
                     Time = tijd,
-                    Ping = pingResults
+                    IP = ip,
+                    Ping = "Ping successful"
                 });
                 db.SaveChanges();
                 return pingResults;

@@ -4,3 +4,7 @@
 
 
 <h1>Router status</h1>
+@foreach (var item in Model)
+{
+<p>@item.ID @item.Date @item.Time @item.IP @item.Ping</p>
+}
