@@ -15,8 +15,6 @@ namespace Raspberry_LED_Client
     internal class MainClass
     {
         private static byte[] Buffer { get; set; }
-        private static Socket socket;
-        private static Socket accepted = null;
 
         public static int ServerPort = 20020;
 
@@ -24,38 +22,19 @@ namespace Raspberry_LED_Client
 
         public static void Main()
         {
-
+            var switchButton = ConnectorPin.P1Pin03.Input().OnStatusChanged(x => {
+                Console.WriteLine("Button Switched");
+            });
+            var connection = new GpioConnection(switchButton);
+            //connection.Open();
             ServerWorkThread objThread = new ServerWorkThread();
             Console.WriteLine("Awaiting Data");
+
             while (true)
             {
                 objThread.HandleConnection(objThread.mySocket.Accept());
+
             }
-//            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-//            socket.Bind(new IPEndPoint(0, ServerPort));
-//            while (true)
-//            {
-//                socket.Listen(100);
-//                Console.WriteLine("Awaiting Data");
-//                accepted = socket.Accept();
-//                Buffer = new byte[accepted.SendBufferSize];
-//                int bytesRead = accepted.Receive(Buffer);
-//                byte[] formatted = new byte[bytesRead];
-//                for (int i = 0; i < bytesRead; i++)
-//                {
-//                    formatted[i] = Buffer[i];
-//                }
-//
-//                strData = Encoding.ASCII.GetString(formatted);
-//                
-//                }
-//                else
-//                {
-//                    Console.WriteLine("Can't parse \"" + strData + "\" as a command.");
-//                }
-//                Console.WriteLine(strData + Environment.NewLine);
-//                Thread.Sleep(50);
-//            }// End of while loop
         } // End of Main function
 
         public class ServerWorkThread
@@ -79,7 +58,7 @@ namespace Raspberry_LED_Client
 
             public void RecieveAndSend(object iIncoming)
             {
-                Socket objSocket = (Socket) iIncoming;
+                Socket objSocket = (Socket)iIncoming;
                 byte[] bytes = new byte[1024];
                 string strSend = string.Empty;
                 Buffer = new byte[objSocket.SendBufferSize];
