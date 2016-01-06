@@ -119,6 +119,11 @@ input{
     margin-top:60px;
 }
 
+.toggle.btn {
+    width: 68px !important;
+    height: 32px !important;
+}
+
 .RedButton{
     width:100px;
     height:100px;
