@@ -16,6 +16,7 @@ namespace Raspberry_LED.Controllers
     {
         private PinConfigDBContext pindb = new PinConfigDBContext();
         private UploadDBContext uploaddb = new UploadDBContext();
+        private PingResultsDBContext pingdb = new PingResultsDBContext();
         SocketHelper _socketHelper = new SocketHelper("127.0.0.1");
         private string _errorMessage;
         // GET: Raspberry
@@ -38,6 +39,14 @@ namespace Raspberry_LED.Controllers
             }
             else
             {
+                pingdb.PingResults.Add(new PingResult
+                {
+                    Date = DateTime.Now.ToString("dd-MM-yyyy"),
+                    Time = DateTime.Now.ToString("HH:mm:ss"),
+                    IP = "127.0.0.1",
+                    Ping = "Couldn't execute ping"
+                });
+                pingdb.SaveChanges();
                 ViewBag.ErrorType = "NoConnection";
                 return View("_Error");
             }
