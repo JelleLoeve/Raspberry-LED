@@ -19,7 +19,8 @@ namespace Raspberry_LED.Controllers
         }
         public ActionResult Status()
         {
-            return View(db.PingResults.ToList());
+            var list = db.PingResults.ToList().OrderByDescending(a => a.ID);
+            return View(list);
         }
 
         [HttpPost]

@@ -18,7 +18,7 @@ namespace Raspberry_LED.Helpers
             var tijd = DateTime.Now.ToString("HH:mm:ss");
             Process proc = new Process();
             proc.StartInfo.FileName = "ping.exe";
-            proc.StartInfo.Arguments = ip + "-w 500";
+            proc.StartInfo.Arguments = ip + " -w 500";
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.RedirectStandardError = true;
             proc.StartInfo.RedirectStandardInput = true;
@@ -78,7 +78,7 @@ namespace Raspberry_LED.Helpers
                     Ping = "Ping failed"
                 });
                 db.SaveChanges();
-                return "";
+                return "Ping failed";
             }
             else
             {
