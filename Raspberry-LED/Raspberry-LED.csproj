@@ -186,6 +186,7 @@
     <Compile Include="Helpers\SocketHelper.cs" />
     <Compile Include="Helpers\SocketSendAndRecieve.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\RaspberryHub.cs" />
     <Compile Include="Models\Pinconfig.cs" />
     <Compile Include="Models\PingResult.cs" />
     <Compile Include="Models\Upload.cs" />
