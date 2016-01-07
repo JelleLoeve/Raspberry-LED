@@ -32,52 +32,27 @@
 }
 <div class="buttons">
     <p>Red:</p>
-    <p><input type="checkbox" checked data-toggle="toggle"></p>
-
+    <input type="checkbox" checked data-toggle="toggle">
     <p>Blue:</p>
-    <p><input type="checkbox" checked data-toggle="toggle"></p>
-
+    <input type="checkbox" checked data-toggle="toggle">
     <p>Green:</p>
-    <p><input type="checkbox" checked data-toggle="toggle"></p>
-
+    <input type="checkbox" checked data-toggle="toggle">
     <p>RBG:</p>
-    <p><input type="checkbox" checked data-toggle="toggle"></p>
+    <input type="checkbox" checked data-toggle="toggle">
 
-        @foreach (var item in Model[0])
+    @foreach (var item in Model[0])
+    {
+        if (item.isSet)
         {
-            if (item.isSet)
-            {
-                var link = "/Raspberry/ChangeLed/" + item.pinnumber;
-                var state = item.isOn ? "on" : "off";
-                <form action=@link>
-                @if (item.color == "red")
-                {
-                <label class="RedButton">
-                    <p>@state</p><input style="display: none;" type="submit" />
-                </label>
-                }
-
-                @if (item.color == "blue")
-                {
-                <label class="BlueButton">
-                    <p>@state</p><input style="display: none;" type="submit"/>
-                </label>
-                }
-
-                @if (item.color == "green")
-                {
-                    <label class="GreenButton">
-                        <p>@state</p><input style="display: none;" type="submit" />
-                    </label>
-                }
-
-                @if (item.color == "rbg")
-                {
-                    <label class="RBGButton">
-                        <p>@state</p><input style="display: none;" type="submit" />
-                    </label>
-                }
-            </form>
+            var state = item.isOn ? "checked" : "";
+            <div class="row">
+                <div class="col-md-3 col-lg-3">
+                    <p>@item.color</p>
+                </div>
+                <div class="col-md-9 col-lg-9">
+                    <input type="checkbox" @state data-toggle="toggle" onchange="ChangeLed(@item.ID)">
+                </div>
+            </div>
         }
     }
 </div>
