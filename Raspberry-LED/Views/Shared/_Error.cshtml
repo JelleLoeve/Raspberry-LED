@@ -22,3 +22,8 @@
     <h2>Requested file @ViewBag.FileName not found.</h2>
     <p>The server and Raspberry pi couldn't find the file @ViewBag.FileName<br/>Please reupload the file.</p>
 }
+
+@if (ViewBag.ErrorType == "InvalidIP")
+{
+    <h2>@ViewBag.IPAddress is not a valid ip address</h2>
+}
