@@ -5,7 +5,9 @@
 
 <h1>Router status</h1>
 <h3>All ping request</h3>
-@foreach (var item in Model)
-{
-<p>@item.ID | @item.Date | @item.Time | @item.IP | @item.Ping</p>
-}
+<div id="pingResults">
+    @foreach (var item in Model)
+    {
+        <p>@item.ID | @item.Date | @item.Time | @item.IP | @item.Ping</p>
+    }
+</div>
