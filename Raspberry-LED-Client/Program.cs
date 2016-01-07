@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using static Raspberry_LED_Client.Helpers;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace Raspberry_LED_Client
 {
@@ -22,19 +23,42 @@ namespace Raspberry_LED_Client
 
         public static void Main()
         {
-            var switchButton = ConnectorPin.P1Pin03.Input().OnStatusChanged(x => {
-                Console.WriteLine("Button Switched");
-            });
-            var connection = new GpioConnection(switchButton);
+            if (IsLinux)
+            {
+                var switchButton = ConnectorPin.P1Pin03.Input().Revert().OnStatusChanged(x =>
+                {
+                    Console.WriteLine($"Button Switched {x}", x ? "HIGH" : "LOW" );
+                });
+                var gpioconnection = new GpioConnection(switchButton);
+            }
             //connection.Open();
             ServerWorkThread objThread = new ServerWorkThread();
             Console.WriteLine("Awaiting Data");
+            var hubconnection = new HubConnection("http://192.168.1.100:23658/");
+            var RaspberryHub = hubconnection.CreateHubProxy("Raspberry");
 
-            while (true)
-            {
-                objThread.HandleConnection(objThread.mySocket.Accept());
+            hubconnection.Start().ContinueWith(task => {
+                if (task.IsFaulted)
+                {
+                    Console.WriteLine("There was an error opening the connection:{0}",
+                                      task.Exception.GetBaseException());
+                }
+                else {
+                    Console.WriteLine("Connected");
+                }
 
-            }
+            }).Wait();
+
+            RaspberryHub.On<string>("ChangePiLed", param => {
+                Console.WriteLine(param);
+            });
+
+
+            //while (true)
+            //{
+            //    objThread.HandleConnection(objThread.mySocket.Accept());
+
+            //}
         } // End of Main function
 
         public class ServerWorkThread
