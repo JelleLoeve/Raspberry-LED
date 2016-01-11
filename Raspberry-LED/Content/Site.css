@@ -175,3 +175,57 @@ input{
 }
 
 /*End Raspberry index page*/
+
+/*Begin Router status page*/
+#pingResults{
+    border:1px solid black;
+    box-shadow: 10px 10px 5px grey;
+    background-color:#222222;
+    padding-top:5px;
+    padding-left:5px;
+    width:50%;
+}
+
+#pingResults p{
+    color:silver;
+}
+/*End Router status page*/
+
+/*Start Router index page*/
+#networkDrawing{
+    border:1px solid black;
+    box-shadow: 10px 10px 5px 0px grey;
+    background-color:#222222;
+    margin-bottom:25px;
+    width:1025px;
+}
+
+#ipTable{
+    border:1px solid black;
+    box-shadow: 10px 10px 5px 0px grey;
+    background-color:#222222;
+    color:silver;
+}
+
+#ipTable th{
+    padding-right:10px;
+    padding-left:5px;
+    border-bottom:2px solid;
+    border-color:silver;
+}
+
+#ipTable td{
+    padding-right:10px;
+    padding-left:5px;
+}
+/*End Router index page*/
+
+/*Start router ping page*/
+#routerPingWrapper{
+    border:1px solid black;
+    box-shadow: 10px 10px 5px 0px grey;
+    background-color:#222222;
+    color:silver;
+}
+
+/*End router ping page*/
