@@ -11,8 +11,8 @@ namespace Raspberry_LED.Hubs
     [HubName("Raspberry")]
     public class RaspberryHub : Hub
     {
-        [HubMethodName("ChangeLed")]
-        public void ChangeLed(string ledIdInDb)
+        [HubMethodName("ChangeLedWeb")]
+        public void ChangeLedWeb(string ledIdInDb)
         {
             Clients.Others.ChangePiLed(ledIdInDb);
         }

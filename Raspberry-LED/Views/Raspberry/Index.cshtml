@@ -1,58 +1,49 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<p>@ViewBag.ErrorMessage</p>
-<h1>Raspberry Pagina</h1>
-
-<p>Welkom bij Raspberry controller</p>
-<div id="musicUpload">
-    @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new {enctype = "multipart/form-data"}))
-    {
-        <p>Select a already uploaded file</p>
-        <select name="SelectedFileID">
-            @foreach (var item in Model[1])
-            {
-                <option value="@item.ID">@item.Alias</option>
-            }
-        </select>
-        <p>Upload a new file:</p>
-        <input type="text" name="Alias" id="Alias" required placeholder="Enter file alias here"/>
-        <input type="file" name="file" required/>
-
-        <input type="submit" name="Submit" id="Submit" value="Play File"/>
-    }
-</div>
-@foreach (var item in Model[1])
-{
-    <p>@item.ID</p>
-    <p>@item.FileName</p>
-    <p>@item.Alias</p>
-    <p>@item.Type</p>
-}
-<div class="buttons">
-    <p>Red:</p>
-    <input type="checkbox" checked data-toggle="toggle">
-    <p>Blue:</p>
-    <input type="checkbox" checked data-toggle="toggle">
-    <p>Green:</p>
-    <input type="checkbox" checked data-toggle="toggle">
-    <p>RBG:</p>
-    <input type="checkbox" checked data-toggle="toggle">
-
-    @foreach (var item in Model[0])
-    {
-        if (item.isSet)
+<div id="raspberrypi_index_wrapper">
+    <p>@ViewBag.ErrorMessage</p>
+    <h1>Raspberry Pagina</h1>
+    <p>Welkom bij Raspberry controller</p>
+    <div id="musicUpload">
+        @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            var state = item.isOn ? "checked" : "";
-            <div class="row">
-                <div class="col-md-3 col-lg-3">
-                    <p>@item.color</p>
-                </div>
-                <div class="col-md-9 col-lg-9">
-                    <input type="checkbox" @state data-toggle="toggle" onchange="ChangeLed(@item.ID)">
-                </div>
-            </div>
+            <p>Select a already uploaded file</p>
+            <select name="SelectedFileID">
+                @foreach (var item in Model[1])
+                {
+                    <option value="@item.ID">@item.Alias</option>
+                }
+            </select>
+            <p>Upload a new file:</p>
+            <input type="text" name="Alias" id="Alias" required placeholder="Enter file alias here" />
+            <input type="file" name="file" required />
+
+            <input type="submit" name="Submit" id="Submit" value="Play File" />
         }
+    </div>
+    @foreach (var item in Model[1])
+    {
+        <p>@item.ID</p>
+        <p>@item.FileName</p>
+        <p>@item.Alias</p>
+        <p>@item.Type</p>
     }
+    <div class="buttons">
+        @foreach (var item in Model[0])
+        {
+            if (item.isSet)
+            {
+                var state = item.isOn ? "checked" : "";
+                <div class="row">
+                    <div class="col-md-3 col-lg-3">
+                        <p>@item.color</p>
+                    </div>
+                    <div class="col-md-9 col-lg-9">
+                        <input type="checkbox" @state data-toggle="toggle" onchange="changeled(@item.ID)">
+                    </div>
+                </div>
+            }
+        }
+    </div>
 </div>

@@ -33,8 +33,11 @@ namespace Raspberry_LED_Client
             }
             //connection.Open();
             ServerWorkThread objThread = new ServerWorkThread();
+            Console.WriteLine("Waiting 5 seconds for server to start up");
+            Thread.Sleep(5000);
             Console.WriteLine("Awaiting Data");
-            var hubconnection = new HubConnection("http://192.168.1.100:23658/");
+            
+            var hubconnection = new HubConnection("http://192.168.1.100:23658");
             var RaspberryHub = hubconnection.CreateHubProxy("Raspberry");
 
             hubconnection.Start().ContinueWith(task => {
@@ -49,6 +52,9 @@ namespace Raspberry_LED_Client
 
             }).Wait();
 
+
+            
+
             RaspberryHub.On<string>("ChangePiLed", param => {
                 Console.WriteLine(param);
             });
@@ -59,6 +65,7 @@ namespace Raspberry_LED_Client
             //    objThread.HandleConnection(objThread.mySocket.Accept());
 
             //}
+            Console.Read();
         } // End of Main function
 
         public class ServerWorkThread
