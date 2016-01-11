@@ -29,6 +29,7 @@
         });
         function changeled(ledid) {
             if (connection_started) {
+                console.log($(this).checked);
                 raspberryhubcon.server.ChangeLedWeb(ledid);
             }
         }
