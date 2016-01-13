@@ -16,13 +16,14 @@ namespace Raspberry_LED.Hubs
     {
         PinConfigDBContext db = new PinConfigDBContext();
         [HubMethodName("ChangeLedWeb")]
-        public void ChangeLedWeb(string ledIdInDb)
+        public void ChangeLedWeb(string ledIdInDb, string ison)
         {
             var dbData = db.PinConfigs.Find(int.Parse(ledIdInDb));
             dbData.isOn = !dbData.isOn;
             db.Entry(dbData).State = EntityState.Modified;
             db.SaveChanges();
             Clients.Others.ChangePiLed(ledIdInDb);
+            Clients.Others.ChangedLeds(ledIdInDb, ison);
         }
     }
 }

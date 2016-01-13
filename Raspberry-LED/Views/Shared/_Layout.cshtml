@@ -8,32 +8,7 @@
         <link href="~/Content/bootstrap2-toggle.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <script type="text/javascript">
-        var raspberryhubcon;
-        var connection_started;
-        $(document).ready(function () {
-            if ($("#raspberrypi_index_wrapper").length != 0) {
-                raspberryhubcon = $.connection.Raspberry;
-                connection_started = false;
-                raspberryhubcon.client.ErrorChangingLed = function (ledid) {
-                    $("#toggle" + ledid).toggle().preventDefault();
-                }
-                $.connection.hub.start().done(function () {
-                    connection_started = true;
-                });
-
-                
-            }
-        });
-        function changeled(ledid) {
-            if (connection_started) {
-                console.log($(this).checked);
-                raspberryhubcon.server.ChangeLedWeb(ledid);
-            }
-        }
-    </script>
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -72,13 +47,47 @@
         <footer>
             <p>&copy; @DateTime.Now.Year - Jelle, Mathijs &amp; David</p>
         </footer>
-    </div>
-
-    
+    </div>   
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/site.js")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/bootstrap2-toggle.min.js"></script>
-    
+    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        var raspberryhubcon;
+        var connection_started;
+        $(document).ready(function () {
+            if ($("#raspberrypi_index_wrapper").length != 0) {
+                raspberryhubcon = $.connection.Raspberry;
+                connection_started = false;
+                raspberryhubcon.client.ErrorChangingLed = function (ledid) {
+                    $("#toggle" + ledid).toggle().preventDefault();
+                }
+                $.connection.hub.start().done(function () {
+                    connection_started = true;
+                });
+
+
+            }
+        });
+        function changeled(ledid) {
+            if (connection_started) {
+                console.log($(this).checked);
+                var ison = ("#ison" + ledid).text;
+                console.log(ison);
+                raspberryhubcon.server.ChangeLedWeb(ledid, ison);
+            }
+            else {
+                alert("Connection was not established yet")
+            }
+        }
+        function ChangedLeds(ledid, ison) {
+            if (connection_started) {
+                $("#ison" + ledid).text = ison;
+                console.log(ison);
+            }
+        }
+    </script>
 </body>
 </html>

@@ -116,7 +116,13 @@ input{
 
 /*Begin Raspberry index page*/
 .buttons{
+    padding: 10px;
     margin-top:60px;
+    border:1px solid black;
+    box-shadow: 10px 10px 5px 0px grey;
+    background-color:#222222;
+    width:auto;
+    display:inline-block;
 }
 
 .toggle.btn {
@@ -124,56 +130,23 @@ input{
     height: 32px !important;
 }
 
-.RedButton{
-    width:100px;
-    height:100px;
+.Button{
+    border:3px solid gray;
+    cursor:pointer;
+    width:106px;
+    height:106px;
     border-radius:50px;
     font-size:20px;
     color:white;
     line-height:100px;
     text-align:center;
-    background:red;
+    background:white;
     margin-right:30px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+#raspberrypi_index_wrapper{
 
-.BlueButton{
-    width:100px;
-    height:100px;
-    border-radius:50px;
-    font-size:20px;
-    color:white;
-    line-height:100px;
-    text-align:center;
-    background:blue;
-    margin-right:30px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-
-.GreenButton{
-    width:100px;
-    height:100px;
-    border-radius:50px;
-    font-size:20px;
-    color:white;
-    line-height:100px;
-    text-align:center;
-    background:green;
-    margin-right:30px;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.RBGButton{
-    width:100px;
-    height:100px;
-    border-radius:50px;
-    font-size:20px;
-    color:white;
-    line-height:100px;
-    text-align:center;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
 /*End Raspberry index page*/
 
 /*Begin Router status page*/
