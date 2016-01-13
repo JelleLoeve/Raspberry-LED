@@ -17,7 +17,7 @@ namespace Raspberry_LED.Controllers
         private PinConfigDBContext pindb = new PinConfigDBContext();
         private UploadDBContext uploaddb = new UploadDBContext();
         private PingResultsDBContext pingdb = new PingResultsDBContext();
-        SocketHelper _socketHelper = new SocketHelper("127.0.0.1");
+        SocketHelper _socketHelper = new SocketHelper("192.168.1.3");
         private string _errorMessage;
         // GET: Raspberry
         public ActionResult Index()
