@@ -80,22 +80,26 @@ textarea {
 /*End menu bar*/
 
 
+
+
+/*RASPBERRY PAGE STYLING*/
+
 /*Raspbarry config page*/
 
 #left_table, #right_table{
     float:left;
-    margin-top:12px;
+    margin-top:15px;
+    margin-left:7.5px;
 }
 #left_table{
     margin-right:130px;
+    margin-right:10px;
 }
 
 #tablesWrapper td{
-    background-color:white;
+    background-color:#222222;
     height: 34px;
     width: 100px;
-    border:1px dashed Gainsboro ;
-
 }
 
 #tablesWrapper td p{
@@ -103,11 +107,17 @@ textarea {
     color:red;
 }
 #tablesWrapper{
-    background: url('../Images/gpioImage.png') no-repeat;
-    background-position-x:100px;
+    border:1px solid black;
+    box-shadow: 10px 10px 5px 0px grey;
+    background:url('../Images/gpioImage.png') no-repeat, linear-gradient(#222222,#222222);
+    background-position-x:110px;
     display:block;
     width: 400px;
     height: 720px;
+
+}
+#saveConfig{
+    margin-top:15px;
 }
 input{
     width:100%;
@@ -115,12 +125,17 @@ input{
 /*End raspbarry config page*/
 
 /*Begin Raspberry index page*/
-.buttons{
-    padding: 10px;
-    margin-top:60px;
+#raspberrypi_index_wrapper{
     border:1px solid black;
     box-shadow: 10px 10px 5px 0px grey;
     background-color:#222222;
+    color:silver;
+    padding-left:10px;
+    padding-top:25px;
+}
+.buttons{
+    padding: 10px;
+    margin-top:60px;
     width:auto;
     display:inline-block;
 }
@@ -131,23 +146,35 @@ input{
 }
 
 .Button{
-    border:3px solid gray;
+    border:1px solid white ;
     cursor:pointer;
     width:106px;
     height:106px;
     border-radius:50px;
     font-size:20px;
-    color:white;
+    color:silver;
     line-height:100px;
     text-align:center;
     background:white;
     margin-right:30px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
-#raspberrypi_index_wrapper{
-
-}
 /*End Raspberry index page*/
+
+/*Start Raspberry ping page*/
+#raspberryPingWrapper{
+    border:1px solid black;
+    box-shadow: 10px 10px 5px grey;
+    background-color:#222222;
+    color:silver;
+    width:50%;
+}
+
+
+/*End Raspberry ping page*/
+
+
+/*ROUTER PAGE STYLING*/
 
 /*Begin Router status page*/
 #pingResults{
@@ -157,9 +184,6 @@ input{
     padding-top:5px;
     padding-left:5px;
     width:50%;
-}
-
-#pingResults p{
     color:silver;
 }
 /*End Router status page*/
@@ -199,6 +223,7 @@ input{
     box-shadow: 10px 10px 5px 0px grey;
     background-color:#222222;
     color:silver;
+    width:50%;
 }
 
 /*End router ping page*/
