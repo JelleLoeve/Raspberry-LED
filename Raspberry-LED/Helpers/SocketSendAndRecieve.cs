@@ -16,7 +16,7 @@ namespace Raspberry_LED.Helpers
         private volatile string recievedData;
         public SocketSendAndRecieve(string CommandType, string Command)
         {
-            IPEndPoint objEnpoint = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 20020);
+            IPEndPoint objEnpoint = new IPEndPoint(IPAddress.Parse("192.168.1.3"), 20020);
             pSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             pSocket.Connect(objEnpoint);
             command = CommandType+":"+Command;
