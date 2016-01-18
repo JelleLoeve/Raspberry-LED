@@ -47,7 +47,7 @@
             var itemlabel = "ison" + item.ID;
             if (item.Type == "LED") 
             {
-                <label class="Button" onclick="changeled(@item.ID)">
+                <label class="LED" onclick="changeled(@item.ID)">
                     <p id="@itemlabel">@state</p>
                     <p>@item.Name</p>
                 </label>
