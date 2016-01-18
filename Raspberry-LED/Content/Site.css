@@ -90,11 +90,15 @@ textarea {
     float:left;
     margin-top:15px;
     margin-left:7.5px;
+    margin-right:7.5px;
 }
 #left_table{
-    margin-right:130px;
-    margin-right:10px;
+    margin-right:150px;
 }
+#right_table select{
+    margin-left:20px;
+}
+
 
 #tablesWrapper td{
     background-color:#222222;
@@ -110,9 +114,9 @@ textarea {
     border:1px solid black;
     box-shadow: 10px 10px 5px 0px grey;
     background:url('../Images/gpioImage.png') no-repeat, linear-gradient(#222222,#222222);
-    background-position-x:110px;
+    background-position-x:220px;
     display:block;
-    width: 400px;
+    width: 600px;
     height: 720px;
 
 }
