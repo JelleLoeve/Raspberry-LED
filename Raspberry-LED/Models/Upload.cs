@@ -12,6 +12,5 @@ namespace Raspberry_LED.Models
     public class UploadDBContext : DbContext
     {
         public DbSet<Upload> Uploads { get; set; }
-
     }
 }

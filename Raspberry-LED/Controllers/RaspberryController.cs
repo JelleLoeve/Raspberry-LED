@@ -119,11 +119,11 @@ namespace Raspberry_LED.Controllers
                 {
                     string inputedValue = pinData[key];
                     var test = pindb.PinConfigs.Find(i);
-                    test.color = "";
+                    test.Name = "";
                     test.isSet = false;
                     if (inputedValue != string.Empty && inputedValue != "saveConfig")
                     {
-                        test.color = pinData[key];
+                        test.Name = pinData[key];
                         test.isSet = true;
                         Debug.WriteLine(pinData[key]);
                     }

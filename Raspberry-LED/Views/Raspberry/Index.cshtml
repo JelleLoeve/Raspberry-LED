@@ -32,13 +32,24 @@
     <div class="buttons">
         @foreach (var item in Model[0])
         {
-            if (item.isSet)
+            if (!item.isSet)
             {
-                var state = item.isOn ? "On" : "Off";
-                var itemlabel = "ison" + @item.ID;
+                continue;
+            }
+            var state = item.isOn ? "On" : "Off";
+            var itemlabel = "ison" + item.ID;
+            if (item.Type == "LED") 
+            {
                 <label class="Button" onclick="changeled(@item.ID)">
                     <p id="@itemlabel">@state</p>
-                    <p>@item.color</p>
+                    <p>@item.Name</p>
+                </label>
+            }
+            if (item.Type == "Button")
+            {
+                <label class="Button">
+                    <p id="@itemlabel">@state</p>
+                    <p>@item.Name</p>
                 </label>
             }
         }

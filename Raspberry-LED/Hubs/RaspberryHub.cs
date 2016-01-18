@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
@@ -16,14 +17,16 @@ namespace Raspberry_LED.Hubs
     {
         PinConfigDBContext db = new PinConfigDBContext();
         [HubMethodName("ChangeLedWeb")]
-        public void ChangeLedWeb(string ledIdInDb, string ison)
+        public void ChangeLedWeb(string DBID, string ison)
         {
-            var dbData = db.PinConfigs.Find(int.Parse(ledIdInDb));
-            dbData.isOn = !dbData.isOn;
-            db.Entry(dbData).State = EntityState.Modified;
+            var DBData = db.PinConfigs.Find(int.Parse(DBID));
+            var PinNumber = DBData.PinNumber;
+            DBData.isOn = !DBData.isOn;
+            db.Entry(DBData).State = EntityState.Modified;
             db.SaveChanges();
-            Clients.Others.ChangePiLed(ledIdInDb);
-            Clients.Others.ChangedLeds(ledIdInDb, ison);
+            ison = ison == "On" ? "Off" : "On";
+            Clients.All.ChangedLeds(PinNumber, ison);
+            Clients.Others.ChangePiLed(PinNumber);
         }
     }
 }

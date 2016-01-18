@@ -6,12 +6,11 @@ namespace Raspberry_LED.Models
     public class Pinconfig
     {
         public int ID { get; set; }
-        public int pinnumber { get; set; }
-
-        public string color { get; set; }
-
+        public string ConnectorPinName { get; set; }
+        public int PinNumber { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
         public bool isSet { get; set; }
-
         public bool isOn { get; set; }
 
     }

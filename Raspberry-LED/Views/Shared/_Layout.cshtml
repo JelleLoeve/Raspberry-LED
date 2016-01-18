@@ -73,19 +73,18 @@
         });
         function changeled(ledid) {
             if (connection_started) {
-                console.log($(this).checked);
-                var ison = ("#ison" + ledid).text;
-                console.log(ison);
+                var ison = $("#ison" + ledid).html();
+                console.log("ChangeLed "+ison);
                 raspberryhubcon.server.ChangeLedWeb(ledid, ison);
             }
             else {
-                alert("Connection was not established yet")
+                alert("Connection was not established yet");
             }
         }
         function ChangedLeds(ledid, ison) {
             if (connection_started) {
-                $("#ison" + ledid).text = ison;
-                console.log(ison);
+                $("#ison" + ledid).html(ison);
+                console.log("ChangedLed "+ison);
             }
         }
     </script>

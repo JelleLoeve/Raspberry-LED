@@ -19,6 +19,7 @@ namespace Raspberry_LED_Client
 
         public static string ftpPath = !IsLinux ? "C:/inetpub/ftproot/" : "/home/pi/music/Raspberry-LED/";
         private static GpioConnection gpio;
+        private static GpioConnectionDriver driver;
         public static void Main()
         {
             Console.CancelKeyPress += delegate
@@ -29,39 +30,53 @@ namespace Raspberry_LED_Client
             };
             if (IsLinux)
             {
-                var led1 = ConnectorPin.P1Pin05.Output().Name("led1");
+                var led1 = ConnectorPin.P1Pin05.Output().Name("led1").Disable();
 
                 gpio = new GpioConnection();
+                driver = new GpioConnectionDriver();
                 gpio.Add(led1);
 
                 var switchButton = ConnectorPin.P1Pin03.Input().Revert().OnStatusChanged(x =>
                 {
                     Console.WriteLine($"Button Switched {x}", x ? "HIGH" : "LOW" );
-                    
+                    gpio.Pins["led1"].Toggle();
+
                 });
                 gpio.Add(switchButton);
+                driver.Write(led1.Pin, false);
             }
             //connection.Open();
             ServerWorkThread objThread = new ServerWorkThread();
+            
             Console.WriteLine("Waiting 5 seconds for server to start up");
             Thread.Sleep(5000);
             Console.WriteLine("Awaiting Data");
             
            
 
-            var hubconnection = new HubConnection("http://192.168.1.100:23658/signalr");
+            var hubconnection = new HubConnection("http://192.168.1.100/signalr/hubs");
             var raspberryHub = hubconnection.CreateHubProxy("Raspberry");
 
-            hubconnection.Start().Wait();
-
-
-
-
-            raspberryHub.On<string>("ChangePiLed", p =>
+            hubconnection.Start().ContinueWith(task =>
             {
-                gpio.Pins["led1"].Toggle();
-                Console.WriteLine(p);
+                if (task.IsFaulted)
+                {
+                    Console.WriteLine("There was an error opening the connection:{0}", task.Exception.GetBaseException());
+                }
+                else
+                {
+                    Console.WriteLine("Connected");
+                }
+            }).Wait();
+
+
+
+
+            raspberryHub.On<string>("ChangePiLed", param => {
+                Console.WriteLine(param);
             });
+
+            raspberryHub.On<string, string>("ChangePiLed", (PinNumber, IsOn) => Console.WriteLine($"{PinNumber}   {IsOn}"));
 
             while (true)
             {
