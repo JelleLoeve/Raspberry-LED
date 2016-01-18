@@ -29,31 +29,11 @@ namespace Raspberry_LED_Client
                 Thread.Sleep(1000);
                 Environment.Exit(0);
             };
-            if (IsLinux)
-            {
-                var led1 = ConnectorPin.P1Pin05.Output().Name("led1");
-
-                gpio = new GpioConnection();
-                driver = new GpioConnectionDriver();
-                gpio.Add(led1);
-
-                var switchButton = ConnectorPin.P1Pin03.Input().Revert().OnStatusChanged(x =>
-                {
-                    Console.WriteLine($"Button Switched {x}", x ? "HIGH" : "LOW" );
-                    gpio.Pins["led1"].Toggle();
-
-                });
-                gpio.Add(switchButton);
-                driver.Write(led1.Pin, false);
-            }
-            
-            
-
-
+            // Connection to the signalr hub
             Console.WriteLine("Connecting to http://192.168.1.100");
             var hubconnection = new HubConnection("http://192.168.1.100");
             var raspberryHub = hubconnection.CreateHubProxy("Raspberry");
-            
+
             hubconnection.Start().ContinueWith(task =>
             {
                 if (task.IsFaulted)
@@ -65,14 +45,43 @@ namespace Raspberry_LED_Client
                     Console.WriteLine("Connected");
                 }
             }).Wait();
+
+            if (IsLinux) // This can only run on the pi, windows will crash HARD
+            {
+                var led1 = ConnectorPin.P1Pin05.Output().Name("led1");
+
+                gpio = new GpioConnection();
+                driver = new GpioConnectionDriver();
+                gpio.Add(led1);
+
+                var switchButton = ConnectorPin.P1Pin03.Input().Revert().OnStatusChanged(x =>
+                {
+                    Console.WriteLine($"Button Switched {x}", x ? "HIGH" : "LOW" );
+                    gpio.Pins["led1"].Toggle();
+                    raspberryHub.Invoke<string>("SendChangedValue", "1", x ? "HIGH" : "LOW").Wait();
+                });
+                gpio.Add(switchButton);
+                driver.Write(led1.Pin, false);
+            }
+
+
+
+
             
+
             
-            
-            
-            raspberryHub.On<string>("ChangePiLed", lednumber => {
+
+
+
+
+            raspberryHub.On<string>("ChangePiLed", lednumber => 
+            { 
                 Console.WriteLine(lednumber);
                 int ledid = int.Parse(lednumber);
-                gpio.Pins[((ConnectorPin)ledid).ToProcessor()].Toggle();
+                var procpin = ((ConnectorPin) ledid).ToProcessor();
+                driver.Write(procpin, !driver.Read(procpin));
+
+                //gpio.Pins[((ConnectorPin)ledid).ToProcessor()].Toggle();
                 
             });
             

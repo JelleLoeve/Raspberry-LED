@@ -57,28 +57,24 @@
     <script type="text/javascript">
         var raspberryhubcon;
         var connection_started;
-        $(document).ready(function () {
-            //if ($("#raspberrypi_index_wrapper").length != 0) {
-                raspberryhubcon = $.connection.Raspberry;
-                connection_started = false;
-                $.connection.hub.start().done(function () {
-                    connection_started = true;
-                });
-            //}
+        $(function () {
+            raspberryhubcon = $.connection.Raspberry;
+            raspberryhubcon.client.ChangedValue = function (id, ison) {
+                $("#ison" + id).html(ison);
+            }
+            connection_started = false;
+            $.connection.hub.start().done(function () {
+                connection_started = true;
+            });
         });
         function changeled(ledid) {
             if (connection_started) {
                 var ison = $("#ison" + ledid).html();
-                console.log("ChangeLed "+ison);
                 raspberryhubcon.server.ChangeLedWeb(ledid, ison);
             }
             else {
                 alert("Connection was not established yet");
             }
-        }
-        function ChangedLeds(ledid, ison) {
-            $("#ison" + ledid).html(ison);
-            console.log("ChangedLed "+ison);
         }
     </script>
 </body>
