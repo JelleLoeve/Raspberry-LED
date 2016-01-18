@@ -115,7 +115,7 @@ namespace Raspberry_LED.Controllers
             var i = 1;
             foreach (var key in pinData.AllKeys)
             {
-                if (key != "saveConfig")
+                if (key != "saveConfig" && !key.Contains("t")) // This is a text input so it is a name
                 {
                     string inputedValue = pinData[key];
                     var test = pindb.PinConfigs.Find(i);
@@ -128,6 +128,16 @@ namespace Raspberry_LED.Controllers
                         Debug.WriteLine(pinData[key]);
                     }
                     i++;
+                }
+                else // This is a type so it is either LED or Button
+                {
+                    string inputedValue = pinData[key];
+                    var test = pindb.PinConfigs.Find(i);
+                    test.Type = "";
+                    if (inputedValue != string.Empty && inputedValue != "saveConfig")
+                    {
+                        test.Type = inputedValue;
+                    }
                 }
             }
             pindb.SaveChanges();
