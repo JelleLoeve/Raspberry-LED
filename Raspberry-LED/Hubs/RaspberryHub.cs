@@ -25,8 +25,9 @@ namespace Raspberry_LED.Hubs
             db.Entry(DBData).State = EntityState.Modified;
             db.SaveChanges();
             ison = ison == "On" ? "Off" : "On";
-            Clients.All.ChangedLeds(PinNumber, ison);
             Clients.Others.ChangePiLed(PinNumber);
+            Clients.All.ChangedLeds(PinNumber, ison);
+            
         }
     }
 }

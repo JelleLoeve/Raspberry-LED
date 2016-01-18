@@ -26,11 +26,12 @@ namespace Raspberry_LED_Client
             {
                 Console.WriteLine("Exiting");
                 gpio.Close();
+                Thread.Sleep(1000);
                 Environment.Exit(0);
             };
             if (IsLinux)
             {
-                var led1 = ConnectorPin.P1Pin05.Output().Name("led1").Disable();
+                var led1 = ConnectorPin.P1Pin05.Output().Name("led1");
 
                 gpio = new GpioConnection();
                 driver = new GpioConnectionDriver();
@@ -45,18 +46,14 @@ namespace Raspberry_LED_Client
                 gpio.Add(switchButton);
                 driver.Write(led1.Pin, false);
             }
-            //connection.Open();
-            ServerWorkThread objThread = new ServerWorkThread();
             
-            Console.WriteLine("Waiting 5 seconds for server to start up");
-            Thread.Sleep(5000);
-            Console.WriteLine("Awaiting Data");
             
-           
 
-            var hubconnection = new HubConnection("http://192.168.1.100/signalr/hubs");
+
+            Console.WriteLine("Connecting to http://192.168.1.100");
+            var hubconnection = new HubConnection("http://192.168.1.100");
             var raspberryHub = hubconnection.CreateHubProxy("Raspberry");
-
+            
             hubconnection.Start().ContinueWith(task =>
             {
                 if (task.IsFaulted)
@@ -68,19 +65,23 @@ namespace Raspberry_LED_Client
                     Console.WriteLine("Connected");
                 }
             }).Wait();
-
-
-
-
-            raspberryHub.On<string>("ChangePiLed", param => {
-                Console.WriteLine(param);
+            
+            
+            
+            
+            raspberryHub.On<string>("ChangePiLed", lednumber => {
+                Console.WriteLine(lednumber);
+                int ledid = int.Parse(lednumber);
+                gpio.Pins[((ConnectorPin)ledid).ToProcessor()].Toggle();
+                
             });
+            
+            //raspberryHub.On<string, string>("ChangePiLed", (PinNumber, IsOn) => Console.WriteLine($"{PinNumber}   {IsOn}"));
 
-            raspberryHub.On<string, string>("ChangePiLed", (PinNumber, IsOn) => Console.WriteLine($"{PinNumber}   {IsOn}"));
-
+            //ServerWorkThread objThread = new ServerWorkThread();
             while (true)
             {
-                objThread.HandleConnection(objThread.mySocket.Accept());
+                //objThread.HandleConnection(objThread.mySocket.Accept());
 
             }
 
@@ -97,6 +98,7 @@ namespace Raspberry_LED_Client
                 mySocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 mySocket.Bind(objEnpoint);
                 mySocket.Listen(100);
+                Console.WriteLine("Awaiting Data");
             }
 
             public void HandleConnection(Socket iIncomingSocket)

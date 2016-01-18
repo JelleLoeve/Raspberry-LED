@@ -58,18 +58,13 @@
         var raspberryhubcon;
         var connection_started;
         $(document).ready(function () {
-            if ($("#raspberrypi_index_wrapper").length != 0) {
+            //if ($("#raspberrypi_index_wrapper").length != 0) {
                 raspberryhubcon = $.connection.Raspberry;
                 connection_started = false;
-                raspberryhubcon.client.ErrorChangingLed = function (ledid) {
-                    $("#toggle" + ledid).toggle().preventDefault();
-                }
                 $.connection.hub.start().done(function () {
                     connection_started = true;
                 });
-
-
-            }
+            //}
         });
         function changeled(ledid) {
             if (connection_started) {
@@ -82,10 +77,8 @@
             }
         }
         function ChangedLeds(ledid, ison) {
-            if (connection_started) {
-                $("#ison" + ledid).html(ison);
-                console.log("ChangedLed "+ison);
-            }
+            $("#ison" + ledid).html(ison);
+            console.log("ChangedLed "+ison);
         }
     </script>
 </body>
