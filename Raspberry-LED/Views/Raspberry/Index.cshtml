@@ -15,11 +15,19 @@
                     <option value="@item.ID">@item.Alias</option>
                 }
             </select>
-            <p>Upload a new file:</p>
-            <input type="text" name="Alias" id="Alias" required placeholder="Enter file alias here" />
-            <input type="file" name="file" required />
 
-            <input type="submit" name="Submit" id="Submit" value="Play File" />
+            <p>Upload a new file:</p>
+            <input type="text" name="Alias" id="Alias" placeholder="Enter file alias here" />
+            <input type="file" name="file"/>
+
+    
+            <br/>
+
+            <p>Upload subtitles:</p>
+            <input type="text" name="Sub" id="Sub" placeholder="Enter .srt file here" />
+            <input type="file" accept=".srt,.ass" name="file"/>
+
+            <input type="submit" name="Submit" id="Submit" value="Upload" />
         }
     </div>
     @foreach (var item in Model[1])
