@@ -16,7 +16,7 @@ namespace Raspberry_LED.Helpers
         {
             using (WebClient request = new WebClient())
             {
-                request.Credentials = new NetworkCredential("ftp"," ftp");
+                request.Credentials = new NetworkCredential("ftp","ftp");
                 request.UploadFile("ftp://192.168.1.3/" + filename, "STOR", filepath);
             }
             return null;

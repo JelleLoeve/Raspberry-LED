@@ -63,7 +63,7 @@ namespace Raspberry_LED.Controllers
         public ActionResult Upload(HttpPostedFileBase[] files, FormCollection postData)
         {
             
-            if ((files != null) && files.Length == 1)
+            if ((files != null) && (files.Length == 1 || files.Length == 2))
             {
                 var fileToPlay = string.Empty;
                 foreach (var file in files)

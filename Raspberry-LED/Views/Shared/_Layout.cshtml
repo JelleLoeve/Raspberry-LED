@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-        @Styles.Render("~/Content/css")
-        <link href="~/Content/bootstrap2-toggle.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     
@@ -51,7 +50,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/site.js")
     @RenderSection("scripts", required: false)
-    <script src="~/Scripts/bootstrap2-toggle.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
     <script src="~/signalr/hubs"></script>
     <script type="text/javascript">
@@ -60,6 +58,7 @@
         $(function () {
             raspberryhubcon = $.connection.Raspberry;
             raspberryhubcon.client.ChangedValue = function (id, ison) {
+                console.log("ID:" + id + "  ISON:" + ison);
                 $("#ison" + id).html(ison);
             }
             connection_started = false;

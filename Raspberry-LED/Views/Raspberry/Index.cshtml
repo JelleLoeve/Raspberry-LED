@@ -6,7 +6,8 @@
     <h1>Raspberry Pagina</h1>
     <p>Welkom bij Raspberry controller</p>
     <div id="musicUpload">
-        <form action="/Raspberry/Upload" enctype="multipart/form-data" method="post" onsubmit="validateFileUpload()">
+        @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
             <p>Select a already uploaded file</p>
             <select name="SelectedFileID">
                 @foreach (var item in Model[1])
@@ -17,21 +18,13 @@
 
             <p>Upload Audio/Movie and subs file:</p>
             <input type="text" name="Alias" id="Alias" placeholder="Enter file alias here" />
-            <input type="file" name="file" id="file" multiple="multiple"/>
+            <input type="file" name="file" multiple="multiple" />
 
-            <br/>
+            <br />
 
             <input type="submit" name="Submit" id="Submit" value="Upload" />
-        </form>
-
+        }
     </div>
-    @foreach (var item in Model[1])
-    {
-        <p>@item.ID</p>
-        <p>@item.FileName</p>
-        <p>@item.Alias</p>
-        <p>@item.Type</p>
-    }
     <div class="buttons">
         @foreach (var item in Model[0])
         {
@@ -40,8 +33,8 @@
                 continue;
             }
             var state = item.isOn ? "On" : "Off";
-            var itemlabel = "ison" + item.ID;
-            if (item.Type == "LED") 
+            var itemlabel = "ison" + item.PinNumber;
+            if (item.Type == "LED")
             {
                 <label class="LED" onclick="changeled(@item.ID)">
                     <p id="@itemlabel">@state</p>

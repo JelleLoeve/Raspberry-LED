@@ -25,13 +25,13 @@ namespace Raspberry_LED.Hubs
             db.Entry(DBData).State = EntityState.Modified;
             db.SaveChanges();
             Clients.Others.ChangePiLed(PinNumber);
-            Clients.All.ChangedValue(DBID, ison == "On" ? "Off" : "On");
+            Clients.All.ChangedValue(PinNumber, ison == "On" ? "Off" : "On");
         }
 
         [HubMethodName("SendChangedValue")]
-        public void SendChangedValueToClients(string id, string ison)
+        public void SendChangedValueToClients(string pinnumber, string ison)
         {
-            Clients.All.ChangedValue(id, ison == "HIGH" ? "Off" : "On");
+            Clients.All.ChangedValue(pinnumber, ison);
         }
     }
 }
