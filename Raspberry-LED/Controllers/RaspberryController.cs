@@ -62,36 +62,53 @@ namespace Raspberry_LED.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase[] files, FormCollection postData)
         {
-            // TODO: Loop over the files if the count of files is 2. If it is one then use the existing code
-            // TODO: If the count is over 3 or higher then don't upload and send user back with an error
+            
             if ((files != null) && files.Length == 1)
             {
                 var fileToPlay = string.Empty;
                 foreach (var file in files)
                 {
-                    var fileName = Path.GetFileName(files[0].FileName);
-                    var fileSort = string.Empty; //We need to get the file extension here
+                    var fileName = Path.GetFileName(file.FileName);
+                    var fileSort = Path.GetExtension(file.FileName);
                     var fileType = string.Empty;
                     switch (fileSort)
                     {
-                        case "mp3":
-                            fileSort = "music";
+                        case ".mp3":
+                        case ".ogg":
+                        case ".wav":
+                        case ".flac":
+                            fileType = "audio";
                             break;
-                        case "mp4":
-                            fileSort = "video";
+                        case ".mp4":
+                        case ".mkv":
+                        case ".avi":
+                        case ".wmv":
+                        case ".mov":
+                        case ".mpg":
+                            fileType = "video";
                             break;
+                        case ".srt":
+                        case ".ass":
+                        case ".sub":
+                            fileType = "subtitles";
+                            break;
+
                         default:
-                            fileSort = "unknown";
+                            fileType = "unknown";
                             break;
                     }
-                    // If statement to populate the fileToPlay variable
+                    if (fileType == "video" || fileType == "audio")
+                    {
+                        fileToPlay = fileName;
+                    }
+
                     var path = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
                     var result = uploaddb.Uploads.SqlQuery("SELECT * FROM Uploads WHERE FileName='" + fileName + "'");
                     Task<List<Upload>> resultslist = result.ToListAsync();
                     var results = resultslist.Result;
                     if (!System.IO.File.Exists(path) || results.Count == 0)
                     {
-                        files[0].SaveAs(path);
+                        file.SaveAs(path);
                         CommonHelpers.FTPUpload(path, fileName);
                         uploaddb.Uploads.Add(new Upload
                         {
@@ -106,6 +123,7 @@ namespace Raspberry_LED.Controllers
                 thread1.SendCommand();
                 return RedirectToAction("Index");
             }
+
             else if (postData["SelectedFileID"] != null)
             {
                 int id = int.Parse(postData["SelectedFileID"]);

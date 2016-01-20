@@ -6,8 +6,7 @@
     <h1>Raspberry Pagina</h1>
     <p>Welkom bij Raspberry controller</p>
     <div id="musicUpload">
-        @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        <form action="/Raspberry/Upload" enctype="multipart/form-data" method="post" onsubmit="validateFileUpload()">
             <p>Select a already uploaded file</p>
             <select name="SelectedFileID">
                 @foreach (var item in Model[1])
@@ -18,12 +17,13 @@
 
             <p>Upload Audio/Movie and subs file:</p>
             <input type="text" name="Alias" id="Alias" placeholder="Enter file alias here" />
-            <input type="file" name="file" multiple="multiple"/>
+            <input type="file" name="file" id="file" multiple="multiple"/>
 
             <br/>
 
             <input type="submit" name="Submit" id="Submit" value="Upload" />
-        }
+        </form>
+
     </div>
     @foreach (var item in Model[1])
     {
