@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security.Provider;
@@ -59,27 +60,49 @@ namespace Raspberry_LED.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file, FormCollection postData)
+        public ActionResult Upload(HttpPostedFileBase[] files, FormCollection postData)
         {
-            if (file != null && file.ContentLength > 0)
+            // TODO: Loop over the files if the count of files is 2. If it is one then use the existing code
+            // TODO: If the count is over 3 or higher then don't upload and send user back with an error
+            if ((files != null) && files.Length == 1)
             {
-                var fileType = file.ContentType;
-                var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
-                var results = uploaddb.Uploads.SqlQuery("SELECT * FROM Uploads WHERE FileName='" + fileName + "'");
-                if (!System.IO.File.Exists(path) || results == null)
+                var fileToPlay = string.Empty;
+                foreach (var file in files)
                 {
-                    file.SaveAs(path);
-                    CommonHelpers.FTPUpload(path, fileName);
-                    uploaddb.Uploads.Add(new Upload
+                    var fileName = Path.GetFileName(files[0].FileName);
+                    var fileSort = string.Empty; //We need to get the file extension here
+                    var fileType = string.Empty;
+                    switch (fileSort)
                     {
-                        Alias = postData["alias"],
-                        FileName = fileName,
-                        Type = fileType
-                    });
-                    uploaddb.SaveChanges();
+                        case "mp3":
+                            fileSort = "music";
+                            break;
+                        case "mp4":
+                            fileSort = "video";
+                            break;
+                        default:
+                            fileSort = "unknown";
+                            break;
+                    }
+                    // If statement to populate the fileToPlay variable
+                    var path = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
+                    var result = uploaddb.Uploads.SqlQuery("SELECT * FROM Uploads WHERE FileName='" + fileName + "'");
+                    Task<List<Upload>> resultslist = result.ToListAsync();
+                    var results = resultslist.Result;
+                    if (!System.IO.File.Exists(path) || results.Count == 0)
+                    {
+                        files[0].SaveAs(path);
+                        CommonHelpers.FTPUpload(path, fileName);
+                        uploaddb.Uploads.Add(new Upload
+                        {
+                            Alias = postData["alias"],
+                            FileName = fileName,
+                            Type = fileSort
+                        });
+                        uploaddb.SaveChanges();
+                    }
                 }
-                SocketSendAndRecieve thread1 = new SocketSendAndRecieve(CommonHelpers.COMMANDTYPES.MUSIC, fileName);
+                SocketSendAndRecieve thread1 = new SocketSendAndRecieve(CommonHelpers.COMMANDTYPES.MUSIC, fileToPlay);
                 thread1.SendCommand();
                 return RedirectToAction("Index");
             }
