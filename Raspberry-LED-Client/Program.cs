@@ -14,9 +14,18 @@ namespace Raspberry_LED_Client
     {
         private static GpioConnection gpio;
         private static GpioConnectionDriver driver;
-
+        public static HubConnection HubConnection;
+        public static IHubProxy RaspberryHub;
         public static void Main()
         {
+            Console.Title = "Raspberry-LED Domotica client";
+            if (!Helpers.IsLinux)
+            {
+                Console.WriteLine("Sorry, almost everything in this script can only run on the Raspberry Pi.");
+                Console.WriteLine("Press enter to close the script.");
+                Console.Read();
+                Environment.Exit(0);
+            }
             Console.CancelKeyPress += delegate
             {
                 Debug.Print("Exiting");
@@ -31,10 +40,10 @@ namespace Raspberry_LED_Client
             };
             // Connection to the signalr hub
             Debug.Print("Connecting to http://192.168.1.100");
-            var hubconnection = new HubConnection("http://192.168.1.100");
-            var raspberryHub = hubconnection.CreateHubProxy("Raspberry");
+            HubConnection = new HubConnection("http://192.168.1.100");
+            RaspberryHub = HubConnection.CreateHubProxy("Raspberry");
 
-            hubconnection.Start().ContinueWith(task =>
+            HubConnection.Start().ContinueWith(task =>
             {
                 if (task.IsFaulted)
                 {
@@ -58,22 +67,20 @@ namespace Raspberry_LED_Client
                 var switchButton = ConnectorPin.P1Pin03.Input().Revert().OnStatusChanged(x =>
                 {
                     Debug.Print("Button Switched {0}", x ? "On" : "Off" );
-                    raspberryHub.Invoke<string>("SendChangedValue", ConnectorPin.P1Pin03, x ? "On" : "Off").Wait();
+                    RaspberryHub.Invoke<string>("SendChangedValue", ConnectorPin.P1Pin03, x ? "On" : "Off").Wait();
                 });
                 gpio.Add(switchButton);
                 //driver.Write(led1.Pin, false);
             }
 
-            raspberryHub.On<string>("ChangePiLed", pinnumber => 
+            RaspberryHub.On<string>("ChangePiLed", pinnumber => 
             { 
-                Debug.Print(pinnumber);
                 int ledid = int.Parse(pinnumber);
                 var procpin = ((ConnectorPin) ledid).ToProcessor();
                 //driver.Allocate(procpin, PinDirection.Output);
                 driver.Write(procpin, !driver.Read(procpin));
-                //raspberryHub.Invoke<string>("SendChangedValue", pinnumber.ToString(), driver.Read(procpin) ? "On" : "Off").Wait();
+                SendChangesToHub(pinnumber, driver.Read(procpin) ? "On" : "Off");
             });
-
             
 
             ServerWorkThread objThread = new ServerWorkThread();
@@ -82,5 +89,11 @@ namespace Raspberry_LED_Client
                 objThread.HandleConnection(objThread.mySocket.Accept());
             }
         } // End of Main function
+
+        public static void SendChangesToHub(string connectorpin, string onoff)
+        {
+            RaspberryHub.Invoke<string>("SendChangedValue", connectorpin, onoff).Wait();
+        }
+
     }
 }
