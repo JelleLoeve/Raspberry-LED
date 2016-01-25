@@ -28,7 +28,8 @@ namespace Raspberry_LED_Client
             }
             Console.CancelKeyPress += delegate
             {
-                Debug.Print("Exiting");
+                Console.WriteLine("Exiting");
+                driver.Release(ConnectorPin.P1Pin03.ToProcessor());
                 for (var i = 0; i == 32;)
                 {
                     driver.Release((ProcessorPin)i);
@@ -39,7 +40,7 @@ namespace Raspberry_LED_Client
                 Environment.Exit(0);
             };
             // Connection to the signalr hub
-            Debug.Print("Connecting to http://192.168.1.100");
+            Console.WriteLine("Connecting to http://192.168.1.100");
             HubConnection = new HubConnection("http://192.168.1.100");
             RaspberryHub = HubConnection.CreateHubProxy("Raspberry");
 
@@ -47,29 +48,36 @@ namespace Raspberry_LED_Client
             {
                 if (task.IsFaulted)
                 {
-                    Debug.Print("There was an error opening the connection:{0}", task.Exception.GetBaseException());
+                    Console.WriteLine("There was an error opening the connection:{0}", task.Exception.GetBaseException());
                 }
                 else
                 {
-                    Debug.Print("Connected");
+                    Console.WriteLine("Connected");
                 }
             }).Wait();
 
             if (Helpers.IsLinux) // This can only run on the pi, windows will crash HARD
             {
-                //var led1 = ConnectorPin.P1Pin05.Output().Name("led1");
 
                 gpio = new GpioConnection();
                 driver = new GpioConnectionDriver();
 
-                //gpio.Add(led1);
-
                 var switchButton = ConnectorPin.P1Pin03.Input().Revert().OnStatusChanged(x =>
                 {
-                    Debug.Print("Button Switched {0}", x ? "On" : "Off" );
-                    RaspberryHub.Invoke<string>("SendChangedValue", ConnectorPin.P1Pin03, x ? "On" : "Off").Wait();
+                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin03, x ? "On" : "Off");
+                });
+                var doorSensor = ConnectorPin.P1Pin7.Input().PullUp().OnStatusChanged(x =>
+                {
+                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin7, x ? "Open" : "Closed");
+                });
+                var motionSensor = ConnectorPin.P1Pin11.Input().OnStatusChanged(x =>
+                {
+                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin11, x ? "Detected" : "Not detected");
+                    Console.WriteLine( DateTime.Now + ":Motion {0}", x ? "Detected" : "Not detected");
                 });
                 gpio.Add(switchButton);
+                gpio.Add(doorSensor);
+                gpio.Add(motionSensor);
                 //driver.Write(led1.Pin, false);
             }
 
@@ -77,9 +85,16 @@ namespace Raspberry_LED_Client
             { 
                 int ledid = int.Parse(pinnumber);
                 var procpin = ((ConnectorPin) ledid).ToProcessor();
-                //driver.Allocate(procpin, PinDirection.Output);
+                // Driver method
+                string str = string.Format("gpio{0}",procpin.ToString().Replace("Pin0","").Replace("Pin",""));
+                if (!Directory.Exists(Path.Combine("/sys/class/gpio", str)))
+                {
+                    Console.WriteLine($"OutputPin {procpin} is not allocated!\nAllocating now.");
+                    driver.Allocate(procpin, PinDirection.Output);
+                    Console.WriteLine("Pin allocated");
+                }
                 driver.Write(procpin, !driver.Read(procpin));
-                SendChangesToHub(pinnumber, driver.Read(procpin) ? "On" : "Off");
+                RaspberryHub.Invoke("SendChangedValue", pinnumber, driver.Read(procpin) ? "On" : "Off");
             });
             
 
@@ -89,11 +104,5 @@ namespace Raspberry_LED_Client
                 objThread.HandleConnection(objThread.mySocket.Accept());
             }
         } // End of Main function
-
-        public static void SendChangesToHub(string connectorpin, string onoff)
-        {
-            RaspberryHub.Invoke<string>("SendChangedValue", connectorpin, onoff).Wait();
-        }
-
     }
 }

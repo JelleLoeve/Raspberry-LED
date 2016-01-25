@@ -1,88 +1,30 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿/* Custom reset code*/
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+/* Foundation reset code*/
+table tr th, table tr td {
+    padding: 0;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+select{
+    padding: 0;
+    margin: 0;
+    width:100%;
+    height: auto;
 }
 
 
-/*Start of custom css code*/
-
-
-/*menu bar*/
-.nav{
-    background:#222222;
-    display:inline-block;
-    width:70%;
-    position:relative
+input[type="text"]{
+    padding: 0;
+    margin: 0;
+    width:100%;
+    height: auto;
 }
-
-.nav li{
-    text-decoration:none;
-    display:inline;
-    line-height:39px;
-    position:relative;
-}
-
-.nav li a{
-    text-decoration:none;
-    color:black;
-    padding:14px 20px;
-}
-
-.nav li a:hover{
-    text-decoration:none;
-    color:darkgray;
-    background:Cornsilk;
-}
-
-.submenu{
-    display:none;
-    position:absolute;
-    list-style-type:none;
-    background:silver;
-    top:39px;
-    left:15px;
-    padding:0;
-}
-
-.submenu li a{
-    text-decoration:none;
-    color:black;
-    padding:4px 15px;
-    width:200px;
-    display:block;
-}
-
-.submenu li a:hover{
-    text-decoration:none;
-    color:whitesmoke;
-    background:silver;
-}
-/*End menu bar*/
-
-
-
-
-/*RASPBERRY PAGE STYLING*/
 
 /*Raspbarry config page*/
 
@@ -96,9 +38,14 @@ textarea {
     margin-right:150px;
 }
 #right_table select{
-    margin-left:20px;
+    height: auto;
+    padding: 0;
+    margin:0 20px 0 0;
 }
 
+#tablesWrapper tr {
+    max-height: 34px !important;
+}
 
 #tablesWrapper td{
     background-color:#222222;
@@ -109,6 +56,7 @@ textarea {
 #tablesWrapper td p{
     font-style:italic;
     color:red;
+    margin-bottom: 0;
 }
 #tablesWrapper{
     border:1px solid black;
@@ -123,10 +71,6 @@ textarea {
 #saveConfig{
     margin-top:15px;
 }
-input{
-    width:100%;
-}
-/*End raspbarry config page*/
 
 /*Begin Raspberry index page*/
 #raspberrypi_index_wrapper{
