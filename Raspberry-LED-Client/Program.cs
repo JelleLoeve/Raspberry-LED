@@ -28,7 +28,9 @@ namespace Raspberry_LED_Client
             }
             Console.CancelKeyPress += delegate
             {
-                Console.WriteLine("Exiting");
+                Console.WriteLine("Stopping the programm");
+                HubConnection.Closed += null;
+                HubConnection.Stop();
                 driver.Release(ConnectorPin.P1Pin03.ToProcessor());
                 for (var i = 0; i == 32;)
                 {
@@ -40,21 +42,12 @@ namespace Raspberry_LED_Client
                 Environment.Exit(0);
             };
             // Connection to the signalr hub
-            Console.WriteLine("Connecting to http://192.168.1.100");
             HubConnection = new HubConnection("http://192.168.1.100");
             RaspberryHub = HubConnection.CreateHubProxy("Raspberry");
-
-            HubConnection.Start().ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    Console.WriteLine("There was an error opening the connection:{0}", task.Exception.GetBaseException());
-                }
-                else
-                {
-                    Console.WriteLine("Connected");
-                }
-            }).Wait();
+            // If the server decides to close the connection we need to start it again
+            HubConnection.Closed += StartHubConnection;
+            // Starts the connection
+            StartHubConnection();
 
             if (Helpers.IsLinux) // This can only run on the pi, windows will crash HARD
             {
@@ -78,14 +71,13 @@ namespace Raspberry_LED_Client
                 gpio.Add(switchButton);
                 gpio.Add(doorSensor);
                 gpio.Add(motionSensor);
-                //driver.Write(led1.Pin, false);
             }
 
             RaspberryHub.On<string>("ChangePiLed", pinnumber => 
             { 
                 int ledid = int.Parse(pinnumber);
                 var procpin = ((ConnectorPin) ledid).ToProcessor();
-                // Driver method
+                
                 string str = string.Format("gpio{0}",procpin.ToString().Replace("Pin0","").Replace("Pin",""));
                 if (!Directory.Exists(Path.Combine("/sys/class/gpio", str)))
                 {
@@ -104,5 +96,20 @@ namespace Raspberry_LED_Client
                 objThread.HandleConnection(objThread.mySocket.Accept());
             }
         } // End of Main function
+
+        private static void StartHubConnection()
+        {
+            HubConnection.Start().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Console.WriteLine("There was an error opening the connection:{0}", task.Exception.GetBaseException());
+                }
+                else
+                {
+                    Console.WriteLine("Connected");
+                }
+            }).Wait();
+        }
     }
 }
