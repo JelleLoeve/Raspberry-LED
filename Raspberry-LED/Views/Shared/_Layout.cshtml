@@ -86,7 +86,17 @@
         }
         $.connection.hub.logging = true;
         connection_started = false;
-        $.connection.hub.start().done(function() {
+        $.connection.hub.start().done(function () {
+            if ($("#raspberrypi_index_wrapper") != null){
+                var array1 = $("#raspberrypi_index_wrapper .buttons label");
+                array1.each(function () {
+                    var type = $(this).attr("class");
+                    var pinnumber = $(this).children().attr("id");
+                    pinnumber = pinnumber.replace("ison", "");
+                    raspberryhubcon.server.GetPinStatusServer(pinnumber, type);
+                });
+                
+            }
             connection_started = true;
         });
     });

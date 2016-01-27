@@ -7,8 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Security.Provider;
 using Raspberry_LED.Helpers;
+using Raspberry_LED.Hubs;
 using Raspberry_LED.Models;
 
 namespace Raspberry_LED.Controllers
@@ -172,6 +174,11 @@ namespace Raspberry_LED.Controllers
                         test.Type = pinData[key + "t"];
                         test.isSet = true;
                         Debug.WriteLine(pinData[key]);
+                        if (pinData[key+"t"] == "Button")
+                        {
+                            var context = GlobalHost.ConnectionManager.GetHubContext<RaspberryHub>();
+                            context.Clients.All.SetupConfig(test.PinNumber, "Button");
+                        }
                     }
                     i++;
                 }

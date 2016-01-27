@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNet.SignalR
+@using Raspberry_LED.Hubs
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="raspberrypi_index_wrapper">
@@ -32,19 +34,19 @@
             {
                 continue;
             }
-            var state = item.isOn ? "On" : "Off";
+
             var itemlabel = "ison" + item.PinNumber;
             if (item.Type == "LED")
             {
                 <label class="LED" onclick="changeled(@item.ID)">
-                    <p id="@itemlabel">@state</p>
+                    <p id="@itemlabel">???</p>
                     <p>@item.Name</p>
                 </label>
             }
             if (item.Type == "Button")
             {
                 <label class="Button">
-                    <p id="@itemlabel">@state</p>
+                    <p id="@itemlabel">???</p>
                     <p>@item.Name</p>
                 </label>
             }

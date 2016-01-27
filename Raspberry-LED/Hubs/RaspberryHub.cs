@@ -37,5 +37,11 @@ namespace Raspberry_LED.Hubs
             db.SaveChanges();
             Clients.Others.ChangedValue(pinnumber, ison);
         }
+
+        [HubMethodName("GetPinStatusServer")]
+        public void GetPinStatusFromPi(int pinnumber, string type)
+        {
+            Clients.Others.GetPinStatus(pinnumber, type);
+        }
     }
 }
