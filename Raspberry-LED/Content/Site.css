@@ -82,26 +82,42 @@ input[type="submit"] {
 
 #left_table, #right_table{
     float:left;
-    margin-top:15px;
+    margin-top:18px;
     margin-left:7.5px;
     margin-right:7.5px;
+    border: 1px solid #222222;
 }
 #left_table{
     margin-right:150px;
+    margin-left:10px;
+    background-color:#222222;
+    border: 1px solid #222222;
 }
+
+#left_table td{
+    padding-right:8px;
+    height:20px;
+}
+
 #right_table select{
     height: auto;
     padding: 0;
-    margin:0 20px 0 0;
+    margin-right:15px;
+    height:20px;
+}
+#right_table td{
+    padding-right: 8px;
+    height:20px;
+
 }
 
 #tablesWrapper tr {
-    max-height: 34px !important;
+    height:32px;
 }
 
 #tablesWrapper td{
     background-color:#222222;
-    height: 34px;
+    height: 33px;
     width: 100px;
 }
 
@@ -121,7 +137,8 @@ input[type="submit"] {
 
 }
 #saveConfig{
-    margin-top:15px;
+    float:left;
+    margin-top:20px;
 }
 
 /*Begin Raspberry index page*/
