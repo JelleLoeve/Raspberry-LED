@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Mobiel</h1>
+<div id="mobileWrapper">
+    @using (Html.BeginForm("saveDevice", "Mobile", FormMethod.Post))
+    {
+        <label>
+            naam van apparaat<br/>
+            <input type="text" name="name" />
+        </label>
+        <label>
+            ip adres van apparaat<br/>
+            <input type="text" name="IPAddress" />
+        </label>
+        <br/>
+        <input type="submit" name="saveDevice" id="saveDevice" value="Opslaan" />
+    }
+</div>
+
+

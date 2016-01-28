@@ -32,7 +32,7 @@ namespace Raspberry_LED.Controllers
         public ActionResult Ping()
         {
             // Uncomment this code to test the socket connection
-            
+
             if (_socketHelper.ConnectToSocket())
             {
                 ViewBag.PingResults = PingHelper.Ping("127.0.0.1");

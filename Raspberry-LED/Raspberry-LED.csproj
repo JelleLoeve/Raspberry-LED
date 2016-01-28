@@ -175,6 +175,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Controllers\PinconfigsController.cs" />
     <Compile Include="Controllers\RaspberryController.cs" />
     <Compile Include="Controllers\RouterController.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Helpers\SocketHelper.cs" />
     <Compile Include="Helpers\SocketSendAndRecieve.cs" />
     <Compile Include="Hubs\RaspberryHub.cs" />
+    <Compile Include="Models\MobileConnect.cs" />
     <Compile Include="Models\Pinconfig.cs" />
     <Compile Include="Models\PingResult.cs" />
     <Compile Include="Models\Upload.cs" />
@@ -193,6 +195,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\MobileConnections.mdf" />
+    <Content Include="App_Data\MobileConnections_log.ldf">
+      <DependentUpon>MobileConnections.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\PinConfigs.mdf" />
     <Content Include="App_Data\PinConfigs_log.ldf">
       <DependentUpon>PinConfigs.mdf</DependentUpon>
@@ -267,6 +273,7 @@
     <Content Include="Views\Pinconfigs\Edit.cshtml" />
     <Content Include="Views\Pinconfigs\Index.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Mobile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Uploads\" />
