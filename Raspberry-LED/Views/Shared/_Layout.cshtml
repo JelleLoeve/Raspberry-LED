@@ -1,80 +1,114 @@
 ﻿<!DOCTYPE html>
-<html>
+<html class="no-js" lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @Styles.Render("~/bundles/Reset")
+    @Styles.Render("~/Content/foundation/css")
+    @Styles.Render("~/Content/Site.css")
+    @RenderSection("head", required: false)
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Project Raspberry-LED", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        @Html.ActionLink("Home", "Index", "Home")
-                    </li>
-                    <li>@Html.ActionLink("Router", "Index", "Router")
-                        <ul class="submenu router">
-                            <li>@Html.ActionLink("Router - Ping", "ping", "Router")</li>
-                            <li>@Html.ActionLink("Router - Status", "status", "Router")</li>
-                        </ul></li>
-                    <li>@Html.ActionLink("Raspberry", "Index", "Raspberry")
-                        <ul class="submenu raspberry">
-                            <li>@Html.ActionLink("Raspberry - ping", "ping", "Raspberry")</li>
-                            <li>@Html.ActionLink("Raspberry - Config", "Config", "Raspberry")</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+            <li class="name">
+                <h1>@Html.ActionLink("Project Raspberry-LED", "Index", "Home")</h1>
+            </li>
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+        </ul>
+
+        <section class="top-bar-section">
+            <!-- Left Nav Section -->
+            <ul class="left">
+                <li>
+                    @Html.ActionLink("Home", "Index", "Home")
+                </li>
+                <li class="has-dropdown">
+                    @Html.ActionLink("Router", "Index", "Router")
+                    <ul class="dropdown router">
+                        <li>@Html.ActionLink("Router - Ping", "ping", "Router")</li>
+                        <li>@Html.ActionLink("Router - Status", "status", "Router")</li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    @Html.ActionLink("Raspberry", "Index", "Raspberry")
+                    <ul class="dropdown raspberry">
+                        <li>@Html.ActionLink("Raspberry - ping", "ping", "Raspberry")</li>
+                        <li>@Html.ActionLink("Raspberry - Config", "Config", "Raspberry")</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Right Nav Section -->
+            <ul class="right show-for-small-down">
+                <li class="has-dropdown">
+                    <a href="#">Easy Access</a>
+                    <ul class="dropdown">
+                        <li>@Html.ActionLink("Raspberry - Config", "Config", "Raspberry")</li>
+                    </ul>
+                </li>
+            </ul>
+
+        </section>
+    </nav>
+<div class="row">
+    <div class="medium-12 small-12">
         @RenderBody()
-        <hr />
+        <hr/>
         <footer>
             <p>&copy; @DateTime.Now.Year - Jelle, Mathijs &amp; David</p>
         </footer>
-    </div>   
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/Scripts/site.js")
-    @RenderSection("scripts", required: false)
-    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <script type="text/javascript">
-        var raspberryhubcon;
-        var connection_started;
-        $(function () {
-            raspberryhubcon = $.connection.Raspberry;
-            raspberryhubcon.client.ChangedValue = function (id, ison) {
-                console.log("ID:" + id + "  ISON:" + ison);
-                $("#ison" + id).html(ison);
-            }
-            connection_started = false;
-            $.connection.hub.start().done(function () {
-                connection_started = true;
-            });
-        });
-        function changeled(ledid) {
-            if (connection_started) {
-                var ison = $("#ison" + ledid).html();
-                raspberryhubcon.server.ChangeLedWeb(ledid, ison);
-            }
-            else {
-                alert("Connection was not established yet");
-            }
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/foundation")
+<script>
+    $(document).foundation();
+</script>
+@RenderSection("scripts", required: false)
+@Scripts.Render("~/Scripts/site.js")
+<script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+<script src="~/signalr/hubs"></script>
+<script type="text/javascript">
+    var raspberryhubcon;
+    var connection_started;
+    $(function() {
+        raspberryhubcon = $.connection.Raspberry;
+        raspberryhubcon.client.ChangedValue = function(id, ison) {
+            console.log("ID:" + id + "  ISON:" + ison);
+            $("#ison" + id).html(ison);
         }
-    </script>
+        $.connection.hub.logging = true;
+        connection_started = false;
+        $.connection.hub.start().done(function () {
+            if ($("#raspberrypi_index_wrapper") != null){
+                var array1 = $("#raspberrypi_index_wrapper .buttons label");
+                array1.each(function () {
+                    var type = $(this).attr("class");
+                    var pinnumber = $(this).children().attr("id");
+                    pinnumber = pinnumber.replace("ison", "");
+                    raspberryhubcon.server.GetPinStatusServer(pinnumber, type);
+                });
+                
+            }
+            connection_started = true;
+        });
+    });
+
+    function changeled(ledid) {
+        if (connection_started) {
+            var ison = $("#ison" + ledid).html();
+            raspberryhubcon.server.ChangeLedWeb(ledid, ison);
+        } else {
+            alert("Connection was not established yet");
+        }
+    }
+</script>
 </body>
 </html>

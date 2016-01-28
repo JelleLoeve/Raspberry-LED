@@ -21,21 +21,27 @@ namespace Raspberry_LED.Hubs
         {
             var DBData = db.PinConfigs.Find(int.Parse(dbid));
             var pinNumber = DBData.PinNumber;
-            DBData.isOn = !DBData.isOn;
-            db.Entry(DBData).State = EntityState.Modified;
-            db.SaveChanges();
             Clients.Others.ChangePiLed(pinNumber);
-            Clients.All.ChangedValue(pinNumber, ison == "On" ? "Off" : "On");
+            //Clients.All.ChangedValue(pinNumber, DBData.isOn ? "On" : "Off");
         }
 
         [HubMethodName("SendChangedValue")]
         public void SendChangedValueToClients(string pinnumber, string ison)
         {
             var DBData = db.PinConfigs.Find(int.Parse(pinnumber) + 1);
-            DBData.isOn = !DBData.isOn;
+            if (ison.Equals("On") || ison.Equals("Off"))
+            {
+                DBData.isOn = ison.Equals("On");
+            }
             db.Entry(DBData).State = EntityState.Modified;
             db.SaveChanges();
-            Clients.All.ChangedValue(pinnumber, ison);
+            Clients.Others.ChangedValue(pinnumber, ison);
+        }
+
+        [HubMethodName("GetPinStatusServer")]
+        public void GetPinStatusFromPi(int pinnumber, string type)
+        {
+            Clients.Others.GetPinStatus(pinnumber, type);
         }
     }
 }
