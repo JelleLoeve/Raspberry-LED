@@ -2,8 +2,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Router ping</h1>
-<div id="routerPingWrapper">
+<div class="wrapper">
+    <h1>Router ping</h1>
     <h4>@ViewBag.PingResults1</h4>
     <h4>@ViewBag.PingResults2</h4>
 
@@ -11,7 +11,7 @@
     {
         <label>
             Enter ip address to ping
-            <input type="text" name="IP" id="IP" required placeholder="Enter IP address" value="10.10.55.254" />
+            <input class="ip-input" type="text" name="IP" id="IP" required placeholder="Enter IP address" value="10.10.55.254" />
         </label>
         <input type="submit" name="Submit" id="Submit" value="Ping!" />
     }

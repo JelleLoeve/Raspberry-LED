@@ -26,6 +26,58 @@ input[type="text"]{
     height: auto;
 }
 
+/*Generic style*/
+input[type="submit"] {
+    color: #000;
+}
+
+.wrapper label{
+    color: #ccc;
+}
+
+@media screen and (min-width:700px) {
+    .wrapper{
+        padding:20px 50px;
+    }
+}
+
+@media screen and (max-width:700px) {
+    .wrapper{
+        padding:20px 20px;
+    }
+}
+.wrapper {
+    border: 1px solid black;
+    box-shadow: 10px 10px 5px 0px grey;
+    background-color: #222222;
+    color: #ccc;
+    margin-top: 25px;
+}
+
+.wrapper h1 {
+    color: #ccc;
+}
+
+@media screen and (min-width:700px) {
+    .wrapper input[type="text"] {
+        max-width: 30%;
+    }
+
+
+    .wrapper select {
+        max-width: 30%;
+    }
+}
+@media screen and (max-width:700px) {
+    .wrapper input[type="text"] {
+        width: 60%;
+    }
+
+    .wrapper select {
+        width: 60%;
+    }
+}
+
 /*Raspbarry config page*/
 
 #left_table, #right_table{
@@ -73,18 +125,10 @@ input[type="text"]{
 }
 
 /*Begin Raspberry index page*/
-#raspberrypi_index_wrapper{
-    border:1px solid black;
-    box-shadow: 10px 10px 5px 0px grey;
-    background-color:#222222;
-    width:70%;
-    color:silver;
-    padding-left:10px;
-    margin-top:25px;
-}
 .buttons{
     padding:10px;
-    margin-top:60px;
+    margin-top:45px;
+    margin-bottom: 30px;
     width:auto;
     display:inline-block;
 }
@@ -93,6 +137,7 @@ input[type="text"]{
     width: 68px !important;
     height: 32px !important;
 }
+
 .Button{
     border:1px solid white ;
     cursor:default;
@@ -106,6 +151,7 @@ input[type="text"]{
     background:SlateGray;
     margin-right:30px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    display: inline-block;
 }
 
 .LED{
@@ -121,6 +167,7 @@ input[type="text"]{
     background:WhiteSmoke;
     margin-right:30px;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    display: inline-block;
 }
 /*End Raspberry index page*/
 
@@ -157,7 +204,7 @@ input[type="text"]{
     box-shadow: 10px 10px 5px 0px grey;
     background-color:#222222;
     margin-bottom:25px;
-    width:1025px;
+    width:100%;
 }
 
 #ipTable{
@@ -172,15 +219,21 @@ input[type="text"]{
     padding-left:5px;
     border-bottom:2px solid;
     border-color:silver;
+    background: #F9F9F9;
 }
 
 #ipTable td{
     padding-right:10px;
     padding-left:5px;
+    background: #F9F9F9;
 }
 /*End Router index page*/
 
 /*Start router ping page*/
+.ip-input {
+    margin: 10px 0 !important;
+}
+
 #routerPingWrapper{
     border:1px solid black;
     box-shadow: 10px 10px 5px 0px grey;
