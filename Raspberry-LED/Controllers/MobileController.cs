@@ -27,7 +27,6 @@ namespace Raspberry_LED.Controllers
                 IPAddress = device["IPAddress"],
             });
             mobiledb.SaveChanges();
-
             return RedirectToAction("Index");
         }
     }
