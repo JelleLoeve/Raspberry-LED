@@ -22,7 +22,6 @@ namespace Raspberry_LED.Hubs
             var DBData = db.PinConfigs.Find(int.Parse(dbid));
             var pinNumber = DBData.PinNumber;
             Clients.Others.ChangePiLed(pinNumber);
-            //Clients.All.ChangedValue(pinNumber, DBData.isOn ? "On" : "Off");
         }
 
         [HubMethodName("SendChangedValue")]

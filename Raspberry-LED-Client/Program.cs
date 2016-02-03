@@ -57,20 +57,21 @@ namespace Raspberry_LED_Client
                 gpio = new GpioConnection();
                 driver = new GpioConnectionDriver();
 
-                var switchButton = ConnectorPin.P1Pin03.Input().Revert().OnStatusChanged(x =>
-                {
-                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin03, x ? "On" : "Off");
-                });
+//                var switchButton = ConnectorPin.P1Pin13.Input().Revert().OnStatusChanged(x =>
+//                {
+//                    Console.WriteLine(x);
+//                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin37, x ? "On" : "Off");
+//                });
                 var doorSensor = ConnectorPin.P1Pin7.Input().PullUp().OnStatusChanged(x =>
                 {
                     RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin7, x ? "Open" : "Closed");
                 });
-                var motionSensor = ConnectorPin.P1Pin11.Input().OnStatusChanged(x =>
+                var motionSensor = ConnectorPin.P1Pin13.Input().OnStatusChanged(x =>
                 {
                     RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin11, x ? "Detected" : "Not detected");
                     Console.WriteLine( DateTime.Now + ":Motion {0}", x ? "Detected" : "Not detected");
                 });
-                gpio.Add(switchButton);
+                //gpio.Add(switchButton);
                 gpio.Add(doorSensor);
                 gpio.Add(motionSensor);
             }

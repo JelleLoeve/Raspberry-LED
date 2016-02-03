@@ -7,6 +7,7 @@
     <p>@ViewBag.ErrorMessage</p>
     <h1>Raspberry Pagina</h1>
     <p>Welkom bij Raspberry controller</p>
+    <p>Klik op de knoppen om de leds onder het scherm aan of uit te zetten</p>
     <div id="musicUpload">
         @using (Html.BeginForm("Upload", "Raspberry", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
