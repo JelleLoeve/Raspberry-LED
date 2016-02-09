@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Microsoft.AspNet.SignalR.Client;
 using Raspberry.IO.GeneralPurpose;
+using Raspberry.IO.InterIntegratedCircuit;
 
 namespace Raspberry_LED_Client
 {
@@ -10,6 +12,8 @@ namespace Raspberry_LED_Client
     {
         private static GpioConnection gpio;
         private static GpioConnectionDriver driver;
+        private static I2cDriver I2CDriver;
+        private static I2cDeviceConnection ArduinoConnection;
         public static HubConnection HubConnection;
         public static IHubProxy RaspberryHub;
         public static void Main()
@@ -50,31 +54,29 @@ namespace Raspberry_LED_Client
             HubConnection.Closed += StartHubConnection;
             // Starts the connection
             StartHubConnection();
+            
 
-            if (Helpers.IsLinux) // This can only run on the pi, windows will crash HARD
+            gpio = new GpioConnection();
+            driver = new GpioConnectionDriver();
+            I2CDriver = new I2cDriver(ConnectorPin.P1Pin3.ToProcessor(), ConnectorPin.P1Pin5.ToProcessor());
+            ArduinoConnection = I2CDriver.Connect(0x04);
+            var switchButton = ConnectorPin.P1Pin13.Input().Revert().OnStatusChanged(x =>
             {
-
-                gpio = new GpioConnection();
-                driver = new GpioConnectionDriver();
-
-//                var switchButton = ConnectorPin.P1Pin13.Input().Revert().OnStatusChanged(x =>
-//                {
-//                    Console.WriteLine(x);
-//                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin37, x ? "On" : "Off");
-//                });
-                var doorSensor = ConnectorPin.P1Pin7.Input().PullUp().OnStatusChanged(x =>
-                {
-                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin7, x ? "Open" : "Closed");
-                });
-                var motionSensor = ConnectorPin.P1Pin13.Input().OnStatusChanged(x =>
-                {
-                    RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin11, x ? "Detected" : "Not detected");
-                    Console.WriteLine( DateTime.Now + ":Motion {0}", x ? "Detected" : "Not detected");
-                });
-                //gpio.Add(switchButton);
-                gpio.Add(doorSensor);
-                gpio.Add(motionSensor);
-            }
+                Console.WriteLine(x);
+                RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin37, x ? "On" : "Off");
+            });
+            var doorSensor = ConnectorPin.P1Pin7.Input().PullUp().OnStatusChanged(x =>
+            {
+                RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin7, x ? "Open" : "Closed");
+            });
+            var motionSensor = ConnectorPin.P1Pin13.Input().OnStatusChanged(x =>
+            {
+                RaspberryHub.Invoke("SendChangedValue", ConnectorPin.P1Pin11, x ? "Detected" : "Not detected");
+                Console.WriteLine( DateTime.Now + ":Motion {0}", x ? "Detected" : "Not detected");
+            });
+//            gpio.Add(switchButton);
+//            gpio.Add(doorSensor);
+//            gpio.Add(motionSensor);
 
             RaspberryHub.On<string>("ChangePiLed", pinnumber => 
             { 
@@ -136,12 +138,41 @@ namespace Raspberry_LED_Client
             
 
             ServerWorkThread objThread = new ServerWorkThread();
+            SendToArduino(1);
             while (true)
             {
-                objThread.HandleConnection(objThread.mySocket.Accept());
+                Thread.Sleep(50);
+                ReadFromArduino();
+                //objThread.HandleConnection(objThread.mySocket.Accept());
             }
         } // End of Main function
 
+        private static void SendToArduino(object dataToSend)
+        {
+            var data = System.Text.Encoding.UTF8.GetBytes(dataToSend+"");
+            ArduinoConnection.Write(data);
+        }
+
+        private static string ReadFromArduino()
+        {
+            byte[] recievedBytes = ArduinoConnection.Read(52);
+            string recievedData = null;
+            int len = 52;
+            while (len > 0 && recievedBytes[len - 1] == 0)
+            {
+                len--;
+            }
+            byte[] cropped = new byte[len];
+            if (len > 0)
+            {
+                Array.Copy(recievedBytes, 0, cropped, 0, len);
+            }
+            recievedBytes = cropped;
+            recievedData = System.Text.Encoding.UTF8.GetString(recievedBytes);
+            recievedData = recievedData.Replace("�", "");
+            Console.WriteLine(recievedData);
+            return recievedData;
+        }
         private static void StartHubConnection()
         {
             HubConnection.Start().ContinueWith(task =>

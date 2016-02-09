@@ -61,8 +61,14 @@
     <Reference Include="Raspberry.IO">
       <HintPath>..\libs\Raspberry.IO.dll</HintPath>
     </Reference>
+    <Reference Include="Raspberry.IO.Components">
+      <HintPath>..\libs\Raspberry.IO.Components.dll</HintPath>
+    </Reference>
     <Reference Include="Raspberry.IO.GeneralPurpose">
       <HintPath>..\libs\Raspberry.IO.GeneralPurpose.dll</HintPath>
+    </Reference>
+    <Reference Include="Raspberry.IO.InterIntegratedCircuit">
+      <HintPath>..\libs\Raspberry.IO.InterIntegratedCircuit.dll</HintPath>
     </Reference>
     <Reference Include="Raspberry.System">
       <HintPath>..\libs\Raspberry.System.dll</HintPath>

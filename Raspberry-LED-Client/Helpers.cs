@@ -1,5 +1,4 @@
 ﻿using System;
-using Raspberry.IO.GeneralPurpose;
 
 namespace Raspberry_LED_Client
 {
